@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1" charset="'UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1">
     <style>
         body {font-family: Arial, Helvetica, sans-serif;}
         * {box-sizing: border-box;}
@@ -39,20 +39,20 @@
 </head>
 <body>
 
-<h3>Student/Professor Food Menu</h3>
+<h3>학생/교직원 식당 관리자 페이지</h3>
 
 <div class="container">
     <form action="/process/addMenu" method="post">
-        <label for="fdate">date</label>
-        <input type="text" id="fdate" name="fdate" placeholder="..">
+        <label for="fdate">날짜</label>
+        <input type="text" id="fdate" name="fdate" placeholder="예를 들어, 10월 15일이라면 1015로 입력해주세요.">
 
-        <label for="fpart">part</label>
-        <input type="text" id="fpart" name="fpart" placeholder="..">
+        <label for="fpart">식당 구분</label>
+        <input type="text" id="fpart" name="fpart" placeholder="예를 들어, 일품 또는 분식 하나만 입력해주세요.">
 
-        <label for="fmenu">Subject</label>
-        <textarea id="fmenu" name="fmenu" placeholder=".." style="height:200px"></textarea>
+        <label for="fmenu">메뉴 내용</label>
+        <textarea id="fmenu" name="fmenu" placeholder="메뉴 전체를 ,를 표시하여 모두 입력해주세요." style="height:200px"></textarea>
 
-        <input type="submit" value="submit">
+        <input type="submit" value="저장">
     </form>
 </div>
 

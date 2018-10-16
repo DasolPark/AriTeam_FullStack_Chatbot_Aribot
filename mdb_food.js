@@ -14,7 +14,7 @@ app.use('/', router);
 
 var database;
 var CafeteriaSchema;
-var CefeteriaModel = {};
+var CafeteriaModel;
 
 router.route('/process/addMenu').post(function(req, res) {
   console.log('/process/addMenu 호출됨.');
@@ -28,7 +28,7 @@ router.route('/process/addMenu').post(function(req, res) {
 });
 
 function addMenu(database, paramDate, paramPart, paramMenu){
-  var cafeteria = new CafeteriaModel({"data":paramDate, "part":paramPart, "menu":paramMenu});
+  var cafeteria = new CafeteriaModel({"date":paramDate, "part":paramPart, "menu":paramMenu});
 
   // save()로 저장
   cafeteria.save(function(err) {
