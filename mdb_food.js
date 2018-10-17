@@ -15,7 +15,10 @@ app.use('/', router);
 var database;
 var CafeteriaSchema;
 var CafeteriaModel;
-
+/*
+app.get('/manager', function(req, res){
+  res.send('/publid/FoodMenuSuccess.html');
+});*/
 router.route('/process/addMenu').post(function(req, res) {
   console.log('/process/addMenu 호출됨.');
 
@@ -25,9 +28,14 @@ router.route('/process/addMenu').post(function(req, res) {
   var paramMenu = req.body.fmenu;
 
   addMenu(database, paramDate, paramPart, paramMenu);
+  res.redirect('/process/addSuccess');
+});
+app.get('/process/addSuccess', function(req, res){
+  var output = `<h1>Add Success</h1>`;
+  res.send(output);
 });
 
-function addMenu(database, paramDate, paramPart, paramMenu){
+function addMenu(database, paramDate, paramPart, paramMenu){//database 빼기
   var cafeteria = new CafeteriaModel({"date":paramDate, "part":paramPart, "menu":paramMenu});
 
   // save()로 저장
@@ -37,8 +45,8 @@ function addMenu(database, paramDate, paramPart, paramMenu){
       return;
     }
 
-    console.log("메뉴 추가함.");
-    callback(null, user);
+    console.log("메뉴 추가함");
+    console.log('mongoexport --db local --collection cafeterias --out C:\\dev\\output.json --jsonArray --pretty');
   });
 }
 
@@ -68,14 +76,12 @@ function connectDB() {
 }
 
 function createCafeteriaSchema() {
-
   // 스키마 정의
   CafeteriaSchema = mongoose.Schema({
     date: {type: Number},
     part: {type: String, default: 0},
     menu: {type: String, default: 0},
   });
-
   console.log('CafeteriaSchema 정의함.');
 
   // CafeteriaModel 모델 정의
@@ -85,7 +91,6 @@ function createCafeteriaSchema() {
 
 http.createServer(app).listen(3000, function(){
   console.log('서버가 시작되었습니다. 포트 : ' + '3000');
-
   // 데이터베이스 연결을 위한 함수 호출
   connectDB();
 });
