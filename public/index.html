@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>AJAX를 이용한 SPA웹(Single Page Application)</title>
+<style>
+	.wrapper{
+		width:100%;
+		height:550px;
+		left:-100%;
+		margin:auto;
+		border:2px dotted blue;
+		position:relative;
+		overflow:hidden;
+	}
+	.regist_area{
+		width:15%;
+		height:100%;
+		background:pink;
+		text-align:center;
+		float:left;
+	}
+	#list_area{
+		width:70%;
+		height:100%;
+		background:dodgerblue;
+		float:left;
+	}
+	.detail_area{
+		width:15%;
+		height:100%;
+		background:blue;
+		text-align:center;
+		float:left;
+	}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	$(function(){
+		$(".wrapper").animate({
+			"left":"0px"
+		});
+		$(".regist_area button:nth-child(1)").click(function(){
+			regist();
+		});
+		$(".regist_area button:nth-child(2)").click(function(){
+			getList();
+		});
+		$(".detail_area button:nth-child(1)").click(function(){
+			edit();
+		});
+		$(".detail_area button:nth-child(2)").click(function(){
+			del();
+		});
+	});
+
+	function regist(){
+		$.post("/member/regist", {
+						id:$("#id").val(),
+						pw:$("#pw").val(),
+						name:$("#name").val()
+		}, function(data, status){
+			if(status=="success"){
+				console.log("success");
+			}
+		});
+	}
+	function getList(){
+		$.get("/member/list", function(data, status){
+			var array=JSON.parse(data);
+			var str="<table width='100%' border='1px'>";
+			str=str+"<tr>";
+			str=str+"<td>member2_id</id>";
+			str=str+"<td>id</td>";
+			str=str+"<td>pw</td>";
+			str=str+"<td>name</td>";
+			str=str+"</tr>";
+			for(var i=0; i<array.length; i++){
+				var obj=array[i];
+				
+				str=str+"<tr onClick=\"getDetail("+obj.member2_id+")\">";
+				str=str+"<td>"+obj.member2_id+"</id>";
+				str=str+"<td>"+obj.id+"</td>";
+				str=str+"<td>"+obj.pw+"</td>";
+				str=str+"<td>"+obj.name+"</td>";
+				str=str+"</tr>";
+			}
+			str=str+"</table>";
+
+			$("#list_area").empty();
+			$("#list_area").append(str);
+		});
+	}
+
+	function getDetail(member2_id){
+		$.get("/member/detail", {member2_id:member2_id}, function(data, status){
+			var array=JSON.parse(data);
+			var obj=array[0];
+
+			$("#member2_id").val(obj.member2_id);
+			$("#id2").val(obj.id);
+			$("#pw2").val(obj.pw);
+			$("#name2").val(obj.name);
+		});
+	}
+
+	function del(){
+		if(confirm("삭제하시겠습니까?")){
+			var n=$("#member2_id").val();
+			$.get("/member/del", {member2_id:n}, function(data, status){
+					if(data=="ok"){
+						getList();
+					}else{
+						alert("삭제 실패 ㅜㅜ");
+					}
+			});
+		}
+	}
+	function edit(){
+		if(confirm("수정하시겠어요??")){
+			$.post("/member/edit", {
+					member2_id:$("#member2_id").val(),
+					id:$("#id2").val(),
+					pw:$("#pw2").val(),
+					name:$("#name2").val()
+				}, function(data, status){
+						if(data=="ok"){
+							alert("수정되었습니다.");
+							getList();
+						}else{
+							alert("수정 실패ㅜㅜ");
+						}
+				});
+		}
+	}
+
+</script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="regist_area">
+			<form>
+				<div>
+					<input type="text" id="id" name="id" placeholder="아이디 입력...">
+				</div>
+				<div>
+					<input type="password" id="pw" name="pw" placeholder="비밀번호 입력...">
+				</div>
+				<div>
+					<input type="text" id="name" name="name" placeholder="이름 입력...">
+				</div>
+			</form>
+			<div>
+				<button>등록</button>
+				<button>리스트</button>
+			</div>
+		</div>
+		<div id="list_area"></div>
+		<div class="detail_area">
+			<form>
+				<div>
+					<input type="hidden" id="member2_id" name="member2_id">
+				</div>
+				<div>
+					<input type="text" id="id2" name="id2">
+				</div>
+				<div>
+					<input type="password" id="pw2" name="pw2">
+				</div>
+				<div>
+					<input type="text" id="name2" name="name2">
+				</div>
+			</form>
+			<div>
+				<button>수정</button>
+				<button>삭제</button>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

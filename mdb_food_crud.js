@@ -22,7 +22,6 @@ app.get('/manager', function(req, res){
 router.route('/process/addMenu').post(function(req, res) {
   console.log('/process/addMenu 호출됨.');
 
-  // 요청 파라미터 확인
   var paramDate = req.body.fdate;
   var paramPart = req.body.fpart;
   var paramMenu = req.body.fmenu;
@@ -30,8 +29,12 @@ router.route('/process/addMenu').post(function(req, res) {
   addMenu(database, paramDate, paramPart, paramMenu);
   res.redirect('/process/addSuccess');
 });
-app.get('/process/addSuccess', function(req, res){
-  var output = `<h1>Add Success</h1>`;
+app.post('/process/addSuccess', function(req, res){
+  var output = `
+  <h1>메뉴가 추가되었습니다.</h1>
+  <h3>${paramDate}</h3>
+  <a href="/public/FoodMenu.html">메뉴추가 화면으로 돌아가기</a>
+  `;
   res.send(output);
 });
 
@@ -48,11 +51,90 @@ function addMenu(database, paramDate, paramPart, paramMenu){//database 빼기
       callback(err, null);
       return;
     }
-    console.log("메뉴 추가함");
+    console.log(paramDate+ ', '+paramPart+ ', '+ paramMenu+ 'document 추가되었습니다.');
     // console.log('mongoexport --db local --collection cafeterias --out C:\\dev\\output.json --jsonArray --pretty');
   });
 }
+/* add deleteOne */
+router.route('/process/delMenu').post(function(req, res) {
+  console.log('/process/delMenu 호출됨.');
 
+  // 요청 파라미터 확인
+  var paramDate = req.body.fdate;
+  var paramPart = req.body.fpart;
+
+  delMenu(database, paramDate, paramPart);
+  res.redirect('/process/delSuccess');
+});
+app.get('/process/delSuccess', function(req, res){
+  var output = `
+    <h1>del Success</h1>
+    <a href="/public/FoodMenu.html">메뉴 추가로 돌아가기</a>
+    `;
+  res.send(output);
+});
+
+function delMenu(database, paramDate, paramPart, callback) {//paramdate, parampart 를 이용해 삭제
+  console.log('delMenu 호출됨.');
+  //메뉴 번호를 입력하면 해당 메뉴의 도큐먼트만 삭제되도록 할 것  
+  database.cafeteriaModel.remove({"date":paramDate, "part":paramPart});
+  cafeteria.save(function(err) {
+    if (err) {
+      callback(err, null);
+      return;
+    }
+    console.log(paramDate+ ', '+paramPart+ 'document 삭제됨');
+    callback(null, cafeteria);
+  });
+}
+/*
+//list 보여주기
+app.get("/process/showlist", function(request, response){
+  pool.getConnection(function(error, con){
+    if(error){
+      console.log(error);
+    }else{
+      var sql="select * from member2 order by member2_id asc";
+
+      con.query(sql, function(err, result, fields){
+        if(err){
+          console.log(err);
+        }else{
+          console.log(result);
+          response.writeHead(200, {"Content-Type":"text/html"});
+          response.end(JSON.stringify(result));
+        }
+      });
+    }
+  });
+});
+function getList(){
+  $.get("/process/listmenu", function(data, status){
+    var array=JSON.parse(data);
+    var str="<table width='100%' border='1px'>";
+        str=str+"<tr>";
+        str=str+"<td>member2_id</id>";
+        str=str+"<td>id</td>";
+        str=str+"<td>pw</td>";
+        str=str+"<td>name</td>";
+        str=str+"</tr>";
+    for(var i=0; i<array.length; i++){
+      var obj=array[i];
+      
+      str=str+"<tr onClick=\"getDetail("+obj.member2_id+")\">";
+      str=str+"<td>"+obj.member2_id+"</id>";
+      str=str+"<td>"+obj.id+"</td>";
+      str=str+"<td>"+obj.pw+"</td>";
+      str=str+"<td>"+obj.name+"</td>";
+      str=str+"</tr>";
+    }
+    str=str+"</table>";
+
+    $("#list_area").empty();
+    $("#list_area").append(str);
+  });
+}
+*/
 function connectDB() {
   // 데이터베이스 연결 정보
   var databaseUrl = 'mongodb://localhost:27017/local';
