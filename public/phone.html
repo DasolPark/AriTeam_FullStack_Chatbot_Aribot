@@ -24,19 +24,19 @@
       float:left;
       overflow:hidden;
    }
-   .middle-area{display:flex;}
+   .middle-area{display:flex; margin-top:20px;}
    .left{width:70%; float:left;}
    .right{width:30%; float:left;}
    .buttonWrap{
       text-align:center;
       clear:both;}
    .right img{width:80%;}
-
+   
    #menuList{
-      width:100%;
+      width:70%;
       height:100%;
+      background:dodgerblue;
       float:left;
-      text-align:center;
    }
 
    input[type=text]{
@@ -62,9 +62,9 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
    $(function(){
-      getList();//처음에 리스트를 불러오며 number초기화
+      getList();
       $("#regist").click(function(){
-         addFood();
+         addMenu();
          textClear();
          getList();
       });
@@ -73,41 +73,44 @@
          textClear();
       });
       $("#del").click(function(){
-         delFood();
+         delMenu();
          textClear();
          getList();
       });
       $("#delAll").click(function(){
-         delAllFood();
+         delAllMenu();
          textClear();
          getList();
       });
    });
 
-   function addFood(){
-      $.post('/food/add', {
-            date:$("#fdate").val(),
-            part:$("#fpart").val(),
-            menu:$("#fmenu").val()
+   function addMenu(){
+      $.post('/process/addPhone', {
+            department : $("#department").val(),
+            location : $("#location").val(),
+            position :$("#position").val(),
+            phone : $('#phone').val()
       });
    }
    function getList(){
       console.log('Called getList()');
-      $.get("/food/list", function(data, status){
+      $.get("/process/listPhone", function(data, status){
          var array=JSON.parse(data);
          var str="<table width='100%' border='1px'>";
          str=str+"<tr>";
-         str=str+"<td>번호</td>";
-         str=str+"<td>날짜</td>";
-         str=str+"<td>업종</td>";
-         str=str+"<td>메뉴</td>";
+         str=str+"<th>번호</th>";
+         str=str+"<th>부서명</th>";
+         str=str+"<th>위치</th>";
+         str=str+"<th>업무/직책</th>";
+         str=str+"<th>전화번호</th>";
          str=str+"</tr>";
          for(var i=0; i<array.length; i++){
             var obj=array[i];
             str=str+"<td>"+obj.number+"</td>";
-            str=str+"<td>"+obj.date+"</td>";
-            str=str+"<td>"+obj.part+"</td>";
-            str=str+"<td>"+obj.menu+"</td>";
+            str=str+"<td>"+obj.department+"</td>";
+            str=str+"<td>"+obj.location+"</td>";
+            str=str+"<td>"+obj.position+"</td>";
+            str=str+"<td>"+obj.phone+"</td>";
             str=str+"</tr>";
          }
          str=str+"</table>";
@@ -116,20 +119,20 @@
          $("#menuList").append(str);
       });
    }
-   function delFood(){
-      $.post('/food/del', {
+   function delMenu(){
+      $.post('/process/delPhone', {
             number:$("#num").val()
          });
    }
-   function delAllFood(){
-      $.post('/food/delAll');
+   function delAllMenu(){
+      $.post('/process/delAllPhone');
    }
 
    function textClear(){
-      $("#fdate").val('').focus();
-        $("#fpart").val('');
-        $("#fmenu").val('');
-        $('#num').val('');
+      $("#department").val('').focus();
+        $("#location").val('');
+        $("#position").val('');
+        $('#phone').val('');
 
    }
 </script>
@@ -137,8 +140,8 @@
 <body>
    <div class="wrapper">
       <div class="menuInput">
-         <h1>안양대학교 Cafeteria</h1>
-         <p style="font-size:12px">안양대학교 학식메뉴를 업데이트해주세요.</p>
+         <h1 style="text-align:center;">안양대학교 교내전화번호</h1>
+         <p style="text-align:center; font-size:12px;">안양대학교 교내전화번호를 업데이트해주세요.</p>
          <div class="middle-area">
             <div class="left">
                <form>
@@ -147,21 +150,25 @@
                      <input type="text" id="num" name="num" placeholder="삭제를 원하시는 번호를 입력해주세요.">
                   </div>
                   <div>
-                     <label>입력날짜</label>
-                     <input type="text" id="fdate" name="fdate" placeholder="날짜를 입력해주세요(ex 10월 15일은 1015)">
+                     <label>부서이름</label>
+                     <input type="text" id="department" name="department" placeholder="부서명(ex:커리어개발센터)">
                   </div>
                   <div>
-                     <label>메뉴업종</label>
-                     <input type="text" id="fpart" name="fpart" placeholder="업종을 입력해주세요(ex 분식은 분식)">
+                     <label>부서위치</label>
+                     <input type="text" id="location" name="location" placeholder="위치(ex:비508)">
                   </div>
                   <div>
-                     <label>상세메뉴</label>
-                     <input type="text" id="fmenu" name="fmenu" placeholder="메뉴를 모두 입력해주세요. 그리고 ,로 구분해주세요.">
+                     <label>업무직책</label>
+                     <input type="text" id="position" name="position" placeholder="업무/직책(ex:사회봉사,민원상담)">
+                  </div>
+                  <div>
+                     <label>전화번호</label>
+                     <input type="text" id="phone" name="phone" placeholder="전화번호(ex:031-469-6268)">
                   </div>
                </form>
             </div>
             <div class="right">
-               <img src="/public/images/food.png" alt="food..">
+               <img src="./food.png" alt="food..">
             </div>
          </div>
       </div>
