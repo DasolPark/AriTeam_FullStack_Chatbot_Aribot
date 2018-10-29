@@ -1,181 +1,197 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>AJAX를 이용한 SPA웹(Single Page Application)</title>
+<title>Document</title>
 <style>
-	.wrapper{
-		width:100%;
-		height:550px;
-		left:-100%;
-		margin:auto;
-		border:2px dotted blue;
-		position:relative;
-		overflow:hidden;
-	}
-	.regist_area{
-		width:15%;
-		height:100%;
-		background:pink;
-		text-align:center;
-		float:left;
-	}
-	#list_area{
-		width:70%;
-		height:100%;
-		background:dodgerblue;
-		float:left;
-	}
-	.detail_area{
-		width:15%;
-		height:100%;
-		background:blue;
-		text-align:center;
-		float:left;
-	}
+@font-face {
+
+    font-family:'NanumGothic';
+
+    src: url('images/NanumGothic.eot');
+
+    src: url('images/NanumGothic.eot?#iefix') format('embedded-opentype'),
+
+         url('images/NanumGothic.woff') format('woff'),
+
+         url('images/NanumGothic.ttf') format('truetype');
+
+    font-weight: normal;
+
+    font-style: normal;
+
+}
+body{ }
+*{margin:0; padding:0; box-sizing:border-box; }
+a{text-decoration:none; color:rgb(50,50,50);}
+.container{width:100%; }
+
+/*네비*/
+.nav{width:100%; padding-top:10px; position:sticky; top:0px; z-index:9999; background:white; border-bottom:1px solid rgb(230,230,230); padding:20px;}
+.nav-content-wrap{width:70%; margin:0 auto; overflow:hidden; }
+.logo{float:left; }
+.logo a{font-size:30px; font-weight:bold; color:rgb(40,60,80);}
+.navigation{float:right; display:inline-block; }
+.navbar {overflow: hidden;}
+.navbar a {float:left;color:rgb(90,90,90);font-size:14px;font-weight: bold;text-align: center;padding: 14px 16px;text-decoration: none;}
+.navbar a:hover{color:rgb(250,220,30);}
+
+/*헤더*/
+.header {
+  width:100%;
+  background-image: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0)), url("public/images/bigheader.jpg");
+  height: 800px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+.header-text {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+}
+.header-text *{margin:40px;}
+.header-text a {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 10px 25px;
+  color: black;
+  background-color: #ddd;
+  text-align: center;
+  cursor: pointer;
+  margin-top:20px;
+}
+.header-text a:hover {background-color: #555;color: white;}
+
+/*section*/
+.section{width:100%;}
+/* .section:nth-child(odd){background:rgb(240,240,240);}
+.section:nth-child(4){background:rgb(250,220,120);} */
+.even{background:rgb(240,240,240);}
+.orange{background:rgb(250,220,120);}
+.content-wrap {width:80%;margin:0 auto; text-align:center;}
+.content-title{width:100%; padding:50px; font-size:20px;}
+.content-content{width:100%; padding:0 50px 50px 50px; font-size:20px;}
+.content-content img{width:150px;margin:10px;}
+/*footer*/
+.footer{border-top:1px solid rgb(230,230,230);padding:50px;}
+
 </style>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-	$(function(){
-		$(".wrapper").animate({
-			"left":"0px"
-		});
-		$(".regist_area button:nth-child(1)").click(function(){
-			regist();
-		});
-		$(".regist_area button:nth-child(2)").click(function(){
-			getList();
-		});
-		$(".detail_area button:nth-child(1)").click(function(){
-			edit();
-		});
-		$(".detail_area button:nth-child(2)").click(function(){
-			del();
-		});
-	});
-
-	function regist(){
-		$.post("/member/regist", {
-						id:$("#id").val(),
-						pw:$("#pw").val(),
-						name:$("#name").val()
-		}, function(data, status){
-			if(status=="success"){
-				console.log("success");
-			}
-		});
-	}
-	function getList(){
-		$.get("/member/list", function(data, status){
-			var array=JSON.parse(data);
-			var str="<table width='100%' border='1px'>";
-			str=str+"<tr>";
-			str=str+"<td>member2_id</id>";
-			str=str+"<td>id</td>";
-			str=str+"<td>pw</td>";
-			str=str+"<td>name</td>";
-			str=str+"</tr>";
-			for(var i=0; i<array.length; i++){
-				var obj=array[i];
-				
-				str=str+"<tr onClick=\"getDetail("+obj.member2_id+")\">";
-				str=str+"<td>"+obj.member2_id+"</id>";
-				str=str+"<td>"+obj.id+"</td>";
-				str=str+"<td>"+obj.pw+"</td>";
-				str=str+"<td>"+obj.name+"</td>";
-				str=str+"</tr>";
-			}
-			str=str+"</table>";
-
-			$("#list_area").empty();
-			$("#list_area").append(str);
-		});
-	}
-
-	function getDetail(member2_id){
-		$.get("/member/detail", {member2_id:member2_id}, function(data, status){
-			var array=JSON.parse(data);
-			var obj=array[0];
-
-			$("#member2_id").val(obj.member2_id);
-			$("#id2").val(obj.id);
-			$("#pw2").val(obj.pw);
-			$("#name2").val(obj.name);
-		});
-	}
-
-	function del(){
-		if(confirm("삭제하시겠습니까?")){
-			var n=$("#member2_id").val();
-			$.get("/member/del", {member2_id:n}, function(data, status){
-					if(data=="ok"){
-						getList();
-					}else{
-						alert("삭제 실패 ㅜㅜ");
-					}
-			});
-		}
-	}
-	function edit(){
-		if(confirm("수정하시겠어요??")){
-			$.post("/member/edit", {
-					member2_id:$("#member2_id").val(),
-					id:$("#id2").val(),
-					pw:$("#pw2").val(),
-					name:$("#name2").val()
-				}, function(data, status){
-						if(data=="ok"){
-							alert("수정되었습니다.");
-							getList();
-						}else{
-							alert("수정 실패ㅜㅜ");
-						}
-				});
-		}
-	}
-
-</script>
 </head>
 <body>
-	<div class="wrapper">
-		<div class="regist_area">
-			<form>
-				<div>
-					<input type="text" id="id" name="id" placeholder="아이디 입력...">
-				</div>
-				<div>
-					<input type="password" id="pw" name="pw" placeholder="비밀번호 입력...">
-				</div>
-				<div>
-					<input type="text" id="name" name="name" placeholder="이름 입력...">
-				</div>
-			</form>
-			<div>
-				<button>등록</button>
-				<button>리스트</button>
+	<div class="container">
+		<div class="nav">
+      <div class="nav-content-wrap">
+        <div class="logo">
+          <!-- <img src="logo.jpg" alt="logo"> -->
+          <a href="/">Aribot</a>
+        </div>
+        <div class="navigation">
+          <div class="navbar">
+            <a href="#section1">Introduce</a>
+            <a href="#section2">Chat Example</a>
+            <a href="#section3">Technology</a>
+            <a href="#section4">Section4</a>
+            <a href="#section5">Section5</a>
+            <a href="#section6">Contact Us</a>
+          </div>
+        </div>
+      </div>
+    </div>
+		<div class="header">
+			<div class="header-text">
+			   <h1 style="font-size:50px">Ari Chatting Bot</h1>
+			   <p style="font-size:2rem">Anyang University Undergraduate administrative support Chatting Bot</p>
+			   <a href="/auth/login">Admin Login</a>
+         <a href="/auth/register">Register</a>
 			</div>
 		</div>
-		<div id="list_area"></div>
-		<div class="detail_area">
-			<form>
-				<div>
-					<input type="hidden" id="member2_id" name="member2_id">
-				</div>
-				<div>
-					<input type="text" id="id2" name="id2">
-				</div>
-				<div>
-					<input type="password" id="pw2" name="pw2">
-				</div>
-				<div>
-					<input type="text" id="name2" name="name2">
-				</div>
-			</form>
-			<div>
-				<button>수정</button>
-				<button>삭제</button>
-			</div>
-		</div>
+
+    <div id="section1"></div>
+		<div class="section">
+      <div class="content-wrap">
+        <div class="content-title">
+          <h1>학사행정지원 대화형 서비스 아리봇</h1>
+        </div>
+        <div class="content-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="section2"></div>
+		<div class="section even">
+      <div class="content-wrap">
+        <div class="content-title">
+          <h1>대화 예시</h1>
+        </div>
+        <div class="content-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="section3"></div>
+		<div class="section">
+      <div class="content-wrap">
+        <div class="content-title">
+          <h1>아리봇은 이렇게 만들어졌어요</h1>
+        </div>
+        <div class="content-content">
+          <img src="public/images/js.png" alt="javascript">
+          <img src="public/images/node.png" alt="nodejs">
+          <img src="public/images/danbee.jpg" height="140" alt="danbee.ai">
+          <img src="public/images/aws.png" alt="aws">
+          <img src="public/images/mysql.png" alt="mysql">
+          <img src="public/images/mongodb.png" alt="mongodb">
+        </div>
+      </div>
+    </div>
+
+    <div id="section4"></div>
+    <div class="section even">
+      <div class="content-wrap">
+        <div class="content-title">
+          <h1>Section4</h1>
+        </div>
+        <div class="content-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="section5"></div>
+    <div class="section orange">
+      <div class="content-wrap">
+        <div class="content-title">
+          <h1>Section5</h1>
+        </div>
+        <div class="content-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="section6"></div>
+		<div class="section <even></even>">
+      <div class="content-wrap">
+        <div class="content-title">
+          <h1>Contact Us</h1>
+        </div>
+        <div class="content-content">
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+        </div>
+      </div>
+    </div>
+
+		<div class="footer">
+      <p style="text-align:center">Copyright</p>
+    </div>
 	</div>
 </body>
 </html>

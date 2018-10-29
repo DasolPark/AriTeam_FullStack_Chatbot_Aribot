@@ -1,0 +1,178 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>학교 식당 메뉴 관리자 페이지(AJAX, SPA)</title>
+<style>
+   html,body{height:100%;}
+   body{background:rgb(40,40,50);}
+   .wrapper{
+      width:50%;
+      padding:20px;
+      margin:auto;
+      background:white;
+      border-radius:20px 0px 20px 0px;
+      position:relative;
+      overflow:hidden;
+      top:50px;
+   }
+   .MenuInput{
+      width:15%;
+      height:100%;
+      background:pink;
+      text-align:center;
+      float:left;
+      overflow:hidden;
+   }
+   .middle-area{display:flex;}
+   .left{width:70%; float:left;}
+   .right{width:30%; float:left;}
+   .buttonWrap{
+      text-align:center;
+      clear:both;}
+   .right img{width:80%;}
+
+   #menuList{
+      width:70%;
+      height:100%;
+      float:left;
+      text-align:center;
+   }
+
+   input[type=text]{
+      width:70%;
+      padding:8px 12px;
+      margin:1px;
+   }
+
+   button{
+      color:white;
+      border:none;
+      background:#24b71f;
+      margin:20px 1px 0px 1px;
+      padding:10px 20px;
+   }
+
+   div button:hover{
+      background:#15a810;
+      cursor:pointer;
+      font-weight:bold;
+   }
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+   $(function(){
+      getList();//처음에 리스트를 불러오며 number초기화
+      $("#regist").click(function(){
+         addMenu();
+         textClear();
+         getList();
+      });
+      $("#list").click(function(){
+         getList();
+         textClear();
+      });
+      $("#del").click(function(){
+         delMenu();
+         textClear();
+         getList();
+      });
+      $("#delAll").click(function(){
+         delAllMenu();
+         textClear();
+         getList();
+      });
+   });
+
+   function addMenu(){
+      $.post('/process/addMenu', {
+            date:$("#fdate").val(),
+            part:$("#fpart").val(),
+            menu:$("#fmenu").val()
+      });
+   }
+   function getList(){
+      console.log('Called getList()');
+      $.get("/process/listMenu", function(data, status){
+         var array=JSON.parse(data);
+         var str="<table width='100%' border='1px'>";
+         str=str+"<tr>";
+         str=str+"<td>번호</td>";
+         str=str+"<td>날짜</td>";
+         str=str+"<td>업종</td>";
+         str=str+"<td>메뉴</td>";
+         str=str+"</tr>";
+         for(var i=0; i<array.length; i++){
+            var obj=array[i];
+            str=str+"<td>"+obj.number+"</td>";
+            str=str+"<td>"+obj.date+"</td>";
+            str=str+"<td>"+obj.part+"</td>";
+            str=str+"<td>"+obj.menu+"</td>";
+            str=str+"</tr>";
+         }
+         str=str+"</table>";
+
+         $("#menuList").empty();
+         $("#menuList").append(str);
+      });
+   }
+   function delMenu(){
+      $.post('/process/delMenu', {
+            number:$("#num").val()
+         });
+   }
+   function delAllMenu(){
+      $.post('/process/delAllMenu');
+   }
+
+   function textClear(){
+      $("#fdate").val('').focus();
+        $("#fpart").val('');
+        $("#fmenu").val('');
+        $('#num').val('');
+
+   }
+</script>
+</head>
+<body>
+   <div class="wrapper">
+      <div class="menuInput">
+         <h1>안양대학교 Cafeteria</h1>
+         <p style="font-size:12px">안양대학교 학식메뉴를 업데이트해주세요.</p>
+         <div class="middle-area">
+            <div class="left">
+               <form>
+                  <div>
+                     <label>삭제번호</label>
+                     <input type="text" id="num" name="num" placeholder="삭제를 원하시는 번호를 입력해주세요.">
+                  </div>
+                  <div>
+                     <label>입력날짜</label>
+                     <input type="text" id="fdate" name="fdate" placeholder="날짜를 입력해주세요(ex 10월 15일은 1015)">
+                  </div>
+                  <div>
+                     <label>메뉴업종</label>
+                     <input type="text" id="fpart" name="fpart" placeholder="업종을 입력해주세요(ex 분식은 분식)">
+                  </div>
+                  <div>
+                     <label>상세메뉴</label>
+                     <input type="text" id="fmenu" name="fmenu" placeholder="메뉴를 모두 입력해주세요. 그리고 ,로 구분해주세요.">
+                  </div>
+               </form>
+            </div>
+            <div class="right">
+               <img src="public/images/food.png" alt="food..">
+            </div>
+         </div>
+      </div>
+      <div class="buttonWrap">
+         <button id='regist'>등록</button>
+         <button id='list'>리스트</button>
+         <button id='del'>삭제</button>
+         <button id='delAll'>전체 삭제</button>
+         <span style="margin-left:10px;"></span>
+      </div>
+      <div id="menuList"></div>
+   </div>
+</body>
+</html>
