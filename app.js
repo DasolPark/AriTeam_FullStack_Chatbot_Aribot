@@ -14,7 +14,7 @@ app.use('/public', static(path.join(__dirname, 'public')));
 var CafeteriaModel;
 
 var auth = require('./routes/mysql/auth')(passport);
-app.use('/auth/', auth);
+app.use('/auth', auth);
 
 app.get('/', function(req, res){
 	res.sendFile(__dirname + '/public/index.html');
@@ -106,6 +106,94 @@ app.post("/food/delAll", function(req, res){
 	});
 });
 
+// 교내전화번호
+app.get('/phone/admin', function(req, res){
+	res.sendFile(path.join(__dirname + '/public/adminPhone.html'));
+});
+
+//메뉴 추가 라우터
+app.post("/phone/add", function(req, res){
+	console.log('/phone/add 호출되었음.');
+
+	var paramDepartment = req.body.department;
+	var paramLocation = req.body.location;
+	var paramPosition = req.body.position;
+	var paramPhone = req.body.phone;
+
+	addPhone(paramDepartment, paramLocation, paramPosition, paramPhone );
+	console.log('Add Phone Success!');
+});
+////메뉴 추가 함수
+function addPhone(paramDepartment, paramLocation, paramPosition, paramPhone){
+		var phone;
+
+		phone = new PhoneModel({
+				department : paramDepartment,
+				location : paramLocation,
+				position : paramPosition,
+				phone : paramPhone
+		});
+
+		phone.save(function(err) {
+			if (err) {
+				console.log(err);
+			}
+			console.log(paramDepartment+ ', '+paramLocation+ ', '+ paramPosition+ ',' + paramPhone + 'document 추가되었습니다.');
+		});
+}
+////메뉴 읽기
+app.get("/phone/list", function(req, res){
+	console.log('/phone/list 호출되었음.');
+	listPhone(req, res);
+	console.log('List Phone Success');
+});
+//메뉴 읽기 함수
+function listPhone(req, res) {
+	PhoneModel.find({}, function(err, phones){
+		console.log('phones.length: '+phones.length);
+
+		const file = './uploads/PhoneList.json'
+		const list = phones;
+
+		jsonfile.writeFile(file, {list}, function(err){
+			if(err) console.log(err);
+		});
+		if (err) {
+			callback(err, null);
+			return;
+		} else {
+			res.writeHead(200, {"Content-Type":"text/html"});
+			res.end(JSON.stringify(phones));
+		}
+	});
+}
+////메뉴 삭제
+app.post("/phone/del", function(req, res){
+	var paramNum = req.body.number;
+
+	PhoneModel.findOneAndDelete({
+		'number': paramNum
+		}, function(err, phones){
+			if(err) {
+				console.log(err);
+			} else {
+				console.log(paramNum+'번 document가 삭제되었습니다.');
+			}
+	});
+});
+//메뉴 전체 삭제
+app.post("/phone/delAll", function(req, res){
+	PhoneModel.deleteMany({}, function(err, phones){
+			if(err) {
+				console.err(err);
+			} else {
+				console.log('document가 전체 삭제되었습니다.');
+			}
+	});
+});
+
+
+// 몽구스 연결
 function connectDB() {
   var databaseUrl = 'mongodb://localhost:27017/local';
 
@@ -124,7 +212,8 @@ function connectDB() {
   database.on('open', function () {
     console.log('데이터베이스에 연결되었습니다. : ' + databaseUrl);
 
-    createCafeteriaSchema();
+    createCafeteriaSchema(); //급식스키마생성
+		createPhoneSchema(); //교내전화번호스키마생성
   });
 
   database.on('disconnected', function() {
@@ -143,10 +232,26 @@ function createCafeteriaSchema() {
   });
   console.log('CafeteriaSchema 정의되었음');
 
-  CafeteriaSchema.plugin(autoIncrement.plugin, {model: 'Cafeteria', field: 'number'});//add autoInc
   CafeteriaModel = mongoose.model('Cafeteria', CafeteriaSchema);
+	CafeteriaSchema.plugin(autoIncrement.plugin, {model: 'Cafeteria', field: 'number'});//add autoInc
 
   console.log('CafeteriaModel 정의되었음');
+}
+
+function createPhoneSchema(){
+	var PhoneSchema = new Schema({
+		number: {type: Number},
+		department: {type:String},
+		location: {type: String},
+		position: {type: String, default: ''},
+		phone: {type: String, default: ''}
+	});
+	console.log('PhoneSchema 정의되었음');
+
+	PhoneModel = mongoose.model('Phone', PhoneSchema);
+	PhoneSchema.plugin(autoIncrement.plugin, {model: 'Phone', field: 'number'});//add autoInc
+
+	console.log('PhoneModel 정의되었음');
 }
 
 app.listen(3003, function(){

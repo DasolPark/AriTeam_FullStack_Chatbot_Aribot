@@ -31,7 +31,7 @@
       text-align:center;
       clear:both;}
    .right img{width:80%;}
-   
+
    #menuList{
       width:70%;
       height:100%;
@@ -85,7 +85,7 @@
    });
 
    function addMenu(){
-      $.post('/process/addPhone', {
+      $.post('/phone/add', {
             department : $("#department").val(),
             location : $("#location").val(),
             position :$("#position").val(),
@@ -94,7 +94,7 @@
    }
    function getList(){
       console.log('Called getList()');
-      $.get("/process/listPhone", function(data, status){
+      $.get("/phone/list", function(data, status){
          var array=JSON.parse(data);
          var str="<table width='100%' border='1px'>";
          str=str+"<tr>";
@@ -120,12 +120,12 @@
       });
    }
    function delMenu(){
-      $.post('/process/delPhone', {
+      $.post('/phone/del', {
             number:$("#num").val()
          });
    }
    function delAllMenu(){
-      $.post('/process/delAllPhone');
+      $.post('/phone/delAll');
    }
 
    function textClear(){
