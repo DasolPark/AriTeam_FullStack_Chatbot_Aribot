@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Document</title>
+<title>Team-Ari</title>
 <style>
 @font-face {
 
@@ -76,16 +76,101 @@ a{text-decoration:none; color:rgb(50,50,50);}
 .orange{background:rgb(250,220,120);}
 .content-wrap {width:80%;margin:0 auto; text-align:center;}
 .content-title{width:100%; padding:50px; font-size:20px;}
-.content-content{width:100%; padding:0 50px 50px 50px; font-size:20px;}
+.content-content{width:100%; padding:0 50px 50px 50px; font-size:20px;  overflow:hidden;}
 .content-content img{width:150px;margin:10px;}
+#chatex { width:100%;}
+
+/*profile card*/
+.card {
+  width:18%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  margin: 10px;
+  text-align: center;
+  font-family: arial;
+  float:left;
+  background:white;
+}
+
+.title, .univ{margin:20px 0px;}
+.card img{margin:0px;}
+
+.title {
+  color: grey;
+  font-size: 18px;
+}
+
+.profile-btn {
+  border: none;
+  outline: 0;
+  display: inline-block;
+  padding: 8px;
+  color: white;
+  background-color: #000;
+  text-align: center;
+  cursor: pointer;
+  width: 100%;
+  font-size: 18px;
+}
+
+.profile-btn:hover{
+  opacity: 0.7;
+}
+
+/*Contact*/
+
+/* Style inputs */
+input[type=text], textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    margin-top: 6px;
+    margin-bottom: 16px;
+    resize: vertical;
+}
+
+input[type=submit] {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+input[type=submit]:hover {
+    background-color: #45a049;
+}
+
+/* Style the container/contact section */
+.contact-container {
+    border-radius: 5px;
+    background-color: #f2f2f2;
+    padding: 10px;
+    text-align:left;
+}
+
+/* Create two columns that float next to eachother */
+.column {
+    float: left;
+    width: 50%;
+    margin-top: 6px;
+    padding: 20px;
+}
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
 /*footer*/
 .footer{border-top:1px solid rgb(230,230,230);padding:50px;}
 
 </style>
 </head>
 <body>
-	<div class="container">
-		<div class="nav">
+   <div class="container">
+      <div class="nav">
       <div class="nav-content-wrap">
         <div class="logo">
           <!-- <img src="logo.jpg" alt="logo"> -->
@@ -103,44 +188,48 @@ a{text-decoration:none; color:rgb(50,50,50);}
         </div>
       </div>
     </div>
-		<div class="header">
-			<div class="header-text">
-			   <h1 style="font-size:50px">Ari Chatting Bot</h1>
-			   <p style="font-size:2rem">Anyang University Undergraduate administrative support Chatting Bot</p>
-			   <a href="/auth/login">Admin Login</a>
+      <div class="header">
+         <div class="header-text">
+            <h1 style="font-size:50px">Ari Chatting Bot</h1>
+            <p style="font-size:2rem">Anyang University Undergraduate administrative support Chatting Bot</p>
+            <a href="/auth/login">Admin Login</a>
          <a href="/auth/register">Register</a>
-			</div>
-		</div>
+         </div>
+      </div>
 
     <div id="section1"></div>
-		<div class="section">
+      <div class="section">
       <div class="content-wrap">
         <div class="content-title">
           <h1>학사행정지원 대화형 서비스 아리봇</h1>
         </div>
-        <div class="content-content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+        <div class="content-content" style="text-align:left; line-height:35px;">
+          <p>&nbsp;&nbsp;‘아리봇’이란 안양대학교의 학사 행정 및 편의시설 안내 챗봇입니다.
+대학생이라면 적어도 한 번쯤은 학식 메뉴가 궁금해서 식당에 올라가본 적, 빈 강의실을 찾아 돌아다녀본 적, 학기 초에 건물의 이름과 위치를 몰라 헤맸던 적, 도서관 빈자리가 궁금했던 경험이 있지 않나요?<br/>
+&nbsp;&nbsp;이러한 불편함과 궁금증을 해소시켜드리기 위해 편하게 스마트폰으로 앉은 자리에서 해결할 수 있도록 가장 쉽게 접근이 가능한 카카오톡 플러스친구와, 챗봇을 이용하여 학생들에게 편의를 제공하고 있습니다.
+24시간 문의가 가능하고 신속하고 정확하면서, 서비스를 사람이 제공함으로써 생기는 한계를 보완하기 위한 기능들이 제공됩니다.<br/>
+</p>
         </div>
       </div>
     </div>
 
     <div id="section2"></div>
-		<div class="section even">
+      <div class="section even">
       <div class="content-wrap">
         <div class="content-title">
-          <h1>대화 예시</h1>
+          <h1>카카오톡을 이용한 아리봇 사용 예시</h1>
         </div>
         <div class="content-content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+          <p><img id="chatex" src="./public/images/chatexample.png"  alt=""></p>
         </div>
       </div>
     </div>
 
     <div id="section3"></div>
-		<div class="section">
+      <div class="section">
       <div class="content-wrap">
         <div class="content-title">
-          <h1>아리봇은 이렇게 만들어졌어요</h1>
+          <h1>아리봇에 사용된 기술</h1>
         </div>
         <div class="content-content">
           <img src="public/images/js.png" alt="javascript">
@@ -157,10 +246,10 @@ a{text-decoration:none; color:rgb(50,50,50);}
     <div class="section even">
       <div class="content-wrap">
         <div class="content-title">
-          <h1>Section4</h1>
+          <h1>다솔형연식이혜원이바보</h1>
         </div>
         <div class="content-content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+          <p>바보ㅎ</p>
         </div>
       </div>
     </div>
@@ -169,29 +258,88 @@ a{text-decoration:none; color:rgb(50,50,50);}
     <div class="section orange">
       <div class="content-wrap">
         <div class="content-title">
-          <h1>Section5</h1>
+          <h1>ARIBOT TEAM</h1>
         </div>
         <div class="content-content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+            <div class="card">
+            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <h1>박 다 솔</h1>
+            <p class="univ">Anyang University</p>
+            <p class="title">정보통신공학과</p>
+            <p><button class="profile-btn">프로젝트 책임자</button></p>
+          </div>
+
+          <div class="card">
+            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <h1>이 혜 원</h1>
+            <p class="univ">Anyang University</p>
+            <p class="title">정보통신공학과</p>
+            <p><button class="profile-btn">팀원</button></p>
+          </div>
+
+          <div class="card">
+            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <h1>김 건 위</h1>
+            <p class="univ">Anyang University</p>
+            <p class="title">정보통신공학과</p>
+            <p><button class="profile-btn">팀원</button></p>
+          </div>
+
+          <div class="card">
+            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <h1>정 현 진</h1>
+            <p class="univ">Anyang University</p>
+            <p class="title">정보통신공학과</p>
+            <p><button class="profile-btn">팀원</button></p>
+          </div>
+
+          <div class="card">
+            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <h1>김 연 식</h1>
+            <p class="univ">Anyang University</p>
+            <p class="title">정보통신공학과</p>
+            <p><button class="profile-btn">팀원</button></p>
+          </div>
         </div>
       </div>
     </div>
 
     <div id="section6"></div>
-		<div class="section <even></even>">
+      <div class="section <even></even>">
       <div class="content-wrap">
         <div class="content-title">
           <h1>Contact Us</h1>
         </div>
         <div class="content-content">
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Possimus necessitatibus saepe amet sit ut at molestiae cum eos atque, adipisci dolorum corrupti. Reiciendis cupiditate facilis exercitationem, eos. Est, commodi, quasi! Illo saepe odio nisi beatae recusandae iusto repudiandae ratione est deleniti officia voluptatem molestiae magni excepturi aliquid, minima non ullam vitae repellendus similique architecto ipsa fugiat. Dolorem eius, aperiam veritatis sit reiciendis enim. Hic possimus cumque temporibus nam maxime quam magnam omnis non porro odit, quia, modi ut fuga nesciunt in et pariatur eveniet alias fugit dolor voluptatem! Optio soluta dolor, magnam laudantium iusto expedita illum, dignissimos blanditiis commodi explicabo?</p>
+          <div class="contact-container">
+            <div style="text-align:center">
+              <p>Swing by for a cup of coffee, or leave us a message:</p>
+            </div>
+            <div class="row">
+              <div class="column">
+                <img src="./public/images/map.png" style="width:100%">
+              </div>
+              <div class="column">
+                <form action="#" method="post">
+                  <label for="name">Name</label>
+                  <input type="text" id="name" name="name" placeholder="Your name..">
+                  <label for="lname">Email</label>
+                  <input type="text" id="email" name="email" placeholder="Your email..">
+
+                  <label for="subject">Subject</label>
+                  <textarea id="subject" name="subject" placeholder="Write something.." style="height:170px"></textarea>
+                  <input type="submit" value="Submit">
+                </form>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-		<div class="footer">
+      <div class="footer">
       <p style="text-align:center">Copyright</p>
     </div>
-	</div>
+   </div>
 </body>
 </html>

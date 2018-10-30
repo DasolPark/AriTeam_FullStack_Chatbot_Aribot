@@ -1,4 +1,4 @@
-//AWS로 올리기 위해 수정된 app.js
+//로컬에서 TEST하기 위한 app.js
 var app = require('./config/mysql/express')();//함수니까 ()도 쓰는게 정석
 var passport = require('./config/mysql/passport')(app);
 var static = require('serve-static');
