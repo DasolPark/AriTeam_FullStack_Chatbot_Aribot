@@ -140,7 +140,7 @@ input[type=submit]:hover {
 (function ($) { $.scroll = {}; $.scroll.move = function (scrollTarget, scrollValue, speed, callback) {
    $(scrollTarget).animate({ "scrollTop": isNaN(scrollValue) ? $(scrollValue).position().top - 85 : scrollValue }, speed, callback); };
    $(function () {
-     $('a').on("click", function (e) { e.preventDefault(); $.scroll.move('html,body', $(this)[0].hash, 800);
+     $('.smooth').on("click", function (e) { e.preventDefault(); $.scroll.move('html,body', $(this)[0].hash, 800);
    }); }); }(window.jQuery));
 </script>
 </head>
@@ -154,12 +154,12 @@ input[type=submit]:hover {
         </div>
         <div class="navigation">
           <div class="navbar">
-            <a href="#section1">Introduce</a>
-            <a href="#section2">Chat Example</a>
-            <a href="#section3">Technology</a>
-            <a href="#section4">Section4</a>
-            <a href="#section5">Section5</a>
-            <a href="#section6">Contact Us</a>
+            <a class="smooth" href="#section1">Introduce</a>
+            <a class="smooth"href="#section2">Chat Example</a>
+            <a class="smooth"href="#section3">Technology</a>
+            <a class="smooth"href="#section4">Section4</a>
+            <a class="smooth"href="#section5">Section5</a>
+            <a class="smooth"href="#section6">Contact Us</a>
           </div>
         </div>
       </div>
@@ -246,7 +246,7 @@ input[type=submit]:hover {
           </div>
 
           <div class="card">
-            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <img src="./public/images/hyewon.jpg" alt="John" style="width:100%">
             <h1>이 혜 원</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
@@ -254,7 +254,7 @@ input[type=submit]:hover {
           </div>
 
           <div class="card">
-            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <img src="./public/images/gwee.jpg" alt="John" style="width:100%">
             <h1>김 건 위</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
@@ -262,7 +262,7 @@ input[type=submit]:hover {
           </div>
 
           <div class="card">
-            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <img src="./public/images/hyunjin.jpg" alt="John" style="width:100%">
             <h1>정 현 진</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
@@ -270,7 +270,7 @@ input[type=submit]:hover {
           </div>
 
           <div class="card">
-            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <img src="./public/images/yondos.jpg" alt="John" style="width:100%">
             <h1>김 연 식</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
