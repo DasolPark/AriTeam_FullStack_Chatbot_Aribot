@@ -233,8 +233,8 @@ function createCafeteriaSchema() {
   });
   console.log('CafeteriaSchema 정의되었음');
 
+  CafeteriaSchema.plugin(autoIncrement.plugin, {model: 'Cafeteria', field: 'number'});//add autoInc
   CafeteriaModel = mongoose.model('Cafeteria', CafeteriaSchema);
-   CafeteriaSchema.plugin(autoIncrement.plugin, {model: 'Cafeteria', field: 'number'});//add autoInc
 
   console.log('CafeteriaModel 정의되었음');
 }
@@ -249,8 +249,8 @@ function createPhoneSchema(){
    });
    console.log('PhoneSchema 정의되었음');
 
-   PhoneModel = mongoose.model('Phone', PhoneSchema);
    PhoneSchema.plugin(autoIncrement.plugin, {model: 'Phone', field: 'number'});//add autoInc
+   PhoneModel = mongoose.model('Phone', PhoneSchema);//위아래 코드 순서 중요!
 
    console.log('PhoneModel 정의되었음');
 }
