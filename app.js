@@ -21,7 +21,11 @@ app.get('/', function(req, res){
 });
 
 app.get('/welcome', function(req, res){
-	res.render('ari/welcome', {user: req.user});
+	if(req.user.username == "food"){
+		res.sendFile(path.join(__dirname + '/public/adminFood2.html'));
+	}else if(req.user.username == "phone"){
+		res.sendFile(path.join(__dirname + '/public/adminPhone2.html'));
+	}
 });
 
 app.get('/food/admin', function(req, res){
