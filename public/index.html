@@ -4,30 +4,14 @@
 <meta charset="UTF-8">
 <title>Document</title>
 <style>
-@font-face {
 
-    font-family:'NanumGothic';
-
-    src: url('images/NanumGothic.eot');
-
-    src: url('images/NanumGothic.eot?#iefix') format('embedded-opentype'),
-
-         url('images/NanumGothic.woff') format('woff'),
-
-         url('images/NanumGothic.ttf') format('truetype');
-
-    font-weight: normal;
-
-    font-style: normal;
-
-}
-body{ }
+/* html{scroll-behavior: smooth;} */
 *{margin:0; padding:0; box-sizing:border-box; }
 a{text-decoration:none; color:rgb(50,50,50);}
 .container{width:100%; }
 
 /*네비*/
-.nav{width:100%; padding-top:10px; position:sticky; top:0px; z-index:9999; background:white; border-bottom:1px solid rgb(230,230,230); padding:20px;}
+.nav{width:100%; padding-top:10px; position:sticky; top:0px; z-index:9999; background:rgba(250,250,250,1); border-bottom:1px solid rgb(230,230,230); padding:20px;}
 .nav-content-wrap{width:70%; margin:0 auto; overflow:hidden; }
 .logo{float:left; }
 .logo a{font-size:30px; font-weight:bold; color:rgb(40,60,80);}
@@ -69,6 +53,7 @@ a{text-decoration:none; color:rgb(50,50,50);}
 .header-text a:hover {background-color: #555;color: white;}
 
 /*section*/
+/* #section1,#section1,#section1,#section1,#section1,#section1{} */
 .section{width:100%;}
 /* .section:nth-child(odd){background:rgb(240,240,240);}
 .section:nth-child(4){background:rgb(250,220,120);} */
@@ -81,24 +66,10 @@ a{text-decoration:none; color:rgb(50,50,50);}
 #chatex { width:100%;}
 
 /*profile card*/
-.card {
-  width:18%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: 10px;
-  text-align: center;
-  font-family: arial;
-  float:left;
-  background:white;
-}
-
+.card {width:18%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);margin: 10px;text-align: center;font-family: arial;float:left;background:white;}
 .title, .univ{margin:20px 0px;}
 .card img{margin:0px;}
-
-.title {
-  color: grey;
-  font-size: 18px;
-}
-
+.title {color: grey;font-size: 18px;}
 .profile-btn {
   border: none;
   outline: 0;
@@ -111,10 +82,7 @@ a{text-decoration:none; color:rgb(50,50,50);}
   width: 100%;
   font-size: 18px;
 }
-
-.profile-btn:hover{
-  opacity: 0.7;
-}
+.profile-btn:hover{opacity: 0.7;}
 
 /*Contact*/
 
@@ -167,6 +135,14 @@ input[type=submit]:hover {
 .footer{border-top:1px solid rgb(230,230,230);padding:50px;}
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+(function ($) { $.scroll = {}; $.scroll.move = function (scrollTarget, scrollValue, speed, callback) {
+   $(scrollTarget).animate({ "scrollTop": isNaN(scrollValue) ? $(scrollValue).position().top - 85 : scrollValue }, speed, callback); };
+   $(function () {
+     $('a').on("click", function (e) { e.preventDefault(); $.scroll.move('html,body', $(this)[0].hash, 800);
+   }); }); }(window.jQuery));
+</script>
 </head>
 <body>
 	<div class="container">
