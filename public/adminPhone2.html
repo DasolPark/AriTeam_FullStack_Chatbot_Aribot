@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>학교 식당 메뉴 관리자 페이지(AJAX, SPA)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+<style>
+  body {font-family: Arial, Helvetica, sans-serif;}
+  *{margin:0; padding:0; box-sizing:border-box;}
+  .wrapper{
+    width:100%;
+    height:inherit;
+  }
+
+  .header{
+    width:100%;
+    height:30%;
+    padding:70px;
+    border-bottom:1px solid rgb(200,200,200);
+    background:#222;
+    color:white;
+    position:relative;
+  }
+  #logout{
+    position:absolute;
+    right:10px;
+    top:5px;
+    cursor:pointer;
+  }
+
+  .section{width:100%; height:70%; overflow:hidden;}
+  .left{width:70%; height:100%; float:left;  padding:30px; }
+  .right{width:30%; height:100%; float:left; padding:30px   ;border-left:1px solid rgb(200,200,200);}
+
+  .input-container {
+      display: -ms-flexbox; /* IE10 */
+      display: flex;
+      width: 100%;
+      margin-bottom: 15px;
+  }
+
+  .icon {
+      padding: 10px;
+      background: #222;
+      color: white;
+      min-width: 50px;
+      text-align: center;
+  }
+
+  .input-field {
+      width: 100%;
+      padding: 10px;
+      outline: none;
+  }
+
+  .input-field:focus {
+      border: 2px solid #222;
+  }
+
+  /* Set a style for the submit button */
+  .btn {
+      margin:1px;
+      background-color: #222;
+      color: white;
+      padding: 15px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+  }
+
+  .btn:hover {
+      opacity: 1;
+  }
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+   $(function(){
+      getList();//처음에 리스트를 불러오며 number초기화
+      $("#add").click(function(){
+         addFood();
+         textClear();
+         getList();
+      });
+      $("#list").click(function(){
+         getList();
+         textClear();
+      });
+      $("#del").click(function(){
+         delFood();
+         textClear();
+         getList();
+      });
+      $("#delAll").click(function(){
+         delAllFood();
+         textClear();
+         getList();
+      });
+   });
+
+   function addMenu(){
+      $.post('/phone/add', {
+            department : $("#department").val(),
+            location : $("#location").val(),
+            position :$("#position").val(),
+            phone : $('#phone').val()
+      });
+   }
+   function getList(){
+      console.log('Called getList()');
+      $.get("/phone/list", function(data, status){
+         var array=JSON.parse(data);
+         var str="<table class='table table-hover' width='100%'>";
+         str=str+"<thead><tr>";
+         str=str+"<th style='width:10%' scope='col'>번호</th>";
+         str=str+"<th style='width:20%' scope='col'>부서</th>";
+         str=str+"<th style='width:20%' scope='col'>위치</th>";
+         str=str+"<th style='width:30%' scope='col'>업무/직책</th>";
+         str=str+"<th style='width:20%' scope='col'>전화번호</th>";
+         str=str+"</tr></thead><tbody>";
+         for(var i=0; i<array.length; i++){
+            var obj=array[i];
+            str=str+"<td>"+obj.number+"</td>";
+            str=str+"<td>"+obj.department+"</td>";
+            str=str+"<td>"+obj.location+"</td>";
+            str=str+"<td>"+obj.position+"</td>";
+            str=str+"<td>"+obj.phone+"</td>";
+            str=str+"</tr>";
+         }
+         str=str+"</tbody></table>";
+
+         $("#menuList").empty();
+         $("#menuList").append(str);
+      });
+   }
+   function delMenu(){
+      $.post('/phone/del', {
+            number:$("#num").val()
+         });
+   }
+   function delAllMenu(){
+      $.post('/phone/delAll');
+   }
+
+   function textClear(){
+      $("#department").val('').focus();
+        $("#location").val('');
+        $("#position").val('');
+        $('#phone').val('');
+
+   }
+</script>
+</head>
+<body>
+  <div class="wrapper">
+    <div class="header">
+      <div>
+        <h1 style="font-weight:bold; ">교내전화번호 관리 페이지</h1>
+        <p>전화번호를 업데이트해주세요!</p>
+        <button id="logout">Logout</button>
+      </div>
+    </div>
+    <div class="section">
+      <div class="left">
+        <h2 style="margin-bottom:20px;">데이터 조회</h2>
+        <div id="menuList"></div>
+      </div>
+      <div class="right">
+        <form style="max-width:500px;margin:auto">
+          <h2 style="margin-bottom:20px;">데이터 추가 및 삭제</h2>
+          <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input class="input-field" type="text" placeholder="삭제번호" id="num" name="num">
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-envelope icon"></i>
+            <input class="input-field" type="text" placeholder="부서명" id="department" name="department">
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="text" placeholder="위치" id="location" name="location">
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="text" placeholder="업무/직책" id="position" name="position">
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="text" placeholder="전화번호" id="phone" name="phone">
+          </div>
+
+        </form>
+        <button class="btn" id="add">추가</button>
+        <button class="btn" id='list'>데이터 조회</button>
+        <button class="btn" id='del'>삭제</button>
+        <button class="btn" id='delAll'>전체 삭제</button>
+    </div>
+
+  </div>
+</body>
+</html>

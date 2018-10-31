@@ -25,7 +25,7 @@ app.get('/welcome', function(req, res){
 });
 
 app.get('/food/admin', function(req, res){
-	res.sendFile(path.join(__dirname + '/public/adminFood.html'));
+	res.sendFile(path.join(__dirname + '/public/adminFood2.html'));
 });
 //메뉴 추가 라우터
 app.post("/food/add", function(req, res){
@@ -108,7 +108,7 @@ app.post("/food/delAll", function(req, res){
 
 // 교내전화번호
 app.get('/phone/admin', function(req, res){
-	res.sendFile(path.join(__dirname + '/public/adminPhone.html'));
+	res.sendFile(path.join(__dirname + '/public/adminPhone2.html'));
 });
 
 //메뉴 추가 라우터
