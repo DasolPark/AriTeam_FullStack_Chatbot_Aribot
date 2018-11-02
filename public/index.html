@@ -2,32 +2,16 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Team-Ari</title>
+<title>Ari-team</title>
 <style>
-@font-face {
 
-    font-family:'NanumGothic';
-
-    src: url('images/NanumGothic.eot');
-
-    src: url('images/NanumGothic.eot?#iefix') format('embedded-opentype'),
-
-         url('images/NanumGothic.woff') format('woff'),
-
-         url('images/NanumGothic.ttf') format('truetype');
-
-    font-weight: normal;
-
-    font-style: normal;
-
-}
-body{ }
+/* html{scroll-behavior: smooth;} */
 *{margin:0; padding:0; box-sizing:border-box; }
 a{text-decoration:none; color:rgb(50,50,50);}
 .container{width:100%; }
 
 /*네비*/
-.nav{width:100%; padding-top:10px; position:sticky; top:0px; z-index:9999; background:white; border-bottom:1px solid rgb(230,230,230); padding:20px;}
+.nav{width:100%; padding-top:10px; position:sticky; top:0px; z-index:9999; background:rgba(250,250,250,1); border-bottom:1px solid rgb(230,230,230); padding:20px;}
 .nav-content-wrap{width:70%; margin:0 auto; overflow:hidden; }
 .logo{float:left; }
 .logo a{font-size:30px; font-weight:bold; color:rgb(40,60,80);}
@@ -69,6 +53,7 @@ a{text-decoration:none; color:rgb(50,50,50);}
 .header-text a:hover {background-color: #555;color: white;}
 
 /*section*/
+/* #section1,#section1,#section1,#section1,#section1,#section1{} */
 .section{width:100%;}
 /* .section:nth-child(odd){background:rgb(240,240,240);}
 .section:nth-child(4){background:rgb(250,220,120);} */
@@ -81,24 +66,10 @@ a{text-decoration:none; color:rgb(50,50,50);}
 #chatex { width:100%;}
 
 /*profile card*/
-.card {
-  width:18%;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-  margin: 10px;
-  text-align: center;
-  font-family: arial;
-  float:left;
-  background:white;
-}
-
+.card {width:18%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);margin: 10px;text-align: center;font-family: arial;float:left;background:white;}
 .title, .univ{margin:20px 0px;}
 .card img{margin:0px;}
-
-.title {
-  color: grey;
-  font-size: 18px;
-}
-
+.title {color: grey;font-size: 18px;}
 .profile-btn {
   border: none;
   outline: 0;
@@ -111,10 +82,7 @@ a{text-decoration:none; color:rgb(50,50,50);}
   width: 100%;
   font-size: 18px;
 }
-
-.profile-btn:hover{
-  opacity: 0.7;
-}
+.profile-btn:hover{opacity: 0.7;}
 
 /*Contact*/
 
@@ -167,10 +135,18 @@ input[type=submit]:hover {
 .footer{border-top:1px solid rgb(230,230,230);padding:50px;}
 
 </style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+(function ($) { $.scroll = {}; $.scroll.move = function (scrollTarget, scrollValue, speed, callback) {
+   $(scrollTarget).animate({ "scrollTop": isNaN(scrollValue) ? $(scrollValue).position().top - 85 : scrollValue }, speed, callback); };
+   $(function () {
+     $('.smooth').on("click", function (e) { e.preventDefault(); $.scroll.move('html,body', $(this)[0].hash, 800);
+   }); }); }(window.jQuery));
+</script>
 </head>
 <body>
-   <div class="container">
-      <div class="nav">
+	<div class="container">
+		<div class="nav">
       <div class="nav-content-wrap">
         <div class="logo">
           <!-- <img src="logo.jpg" alt="logo"> -->
@@ -178,27 +154,26 @@ input[type=submit]:hover {
         </div>
         <div class="navigation">
           <div class="navbar">
-            <a href="#section1">Introduce</a>
-            <a href="#section2">Chat Example</a>
-            <a href="#section3">Technology</a>
-            <a href="#section4">Section4</a>
-            <a href="#section5">Section5</a>
-            <a href="#section6">Contact Us</a>
+            <a class="smooth" href="#section1">Introduce</a>
+            <a class="smooth" href="#section2">Chat Example</a>
+            <a class="smooth" href="#section3">Technology</a>
+            <a class="smooth" href="#section5">Aribot Team</a>
+            <a class="smooth" href="#section6">Contact Us</a>
           </div>
         </div>
       </div>
     </div>
-      <div class="header">
-         <div class="header-text">
-            <h1 style="font-size:50px">Ari Chatting Bot</h1>
-            <p style="font-size:2rem">Anyang University Undergraduate administrative support Chatting Bot</p>
-            <a href="/auth/login">Admin Login</a>
+		<div class="header">
+			<div class="header-text">
+			   <h1 style="font-size:50px">Ari Chatting Bot</h1>
+			   <p style="font-size:2rem">Anyang University Undergraduate administrative support Chatting Bot</p>
+			   <a href="/auth/login">Admin Login</a>
          <a href="/auth/register">Register</a>
-         </div>
-      </div>
+			</div>
+		</div>
 
     <div id="section1"></div>
-      <div class="section">
+		<div class="section">
       <div class="content-wrap">
         <div class="content-title">
           <h1>학사행정지원 대화형 서비스 아리봇</h1>
@@ -214,7 +189,7 @@ input[type=submit]:hover {
     </div>
 
     <div id="section2"></div>
-      <div class="section even">
+		<div class="section even">
       <div class="content-wrap">
         <div class="content-title">
           <h1>카카오톡을 이용한 아리봇 사용 예시</h1>
@@ -226,7 +201,7 @@ input[type=submit]:hover {
     </div>
 
     <div id="section3"></div>
-      <div class="section">
+		<div class="section">
       <div class="content-wrap">
         <div class="content-title">
           <h1>아리봇에 사용된 기술</h1>
@@ -242,23 +217,11 @@ input[type=submit]:hover {
       </div>
     </div>
 
-    <div id="section4"></div>
-    <div class="section even">
-      <div class="content-wrap">
-        <div class="content-title">
-          <h1>다솔형연식이혜원이바보</h1>
-        </div>
-        <div class="content-content">
-          <p>바보ㅎ</p>
-        </div>
-      </div>
-    </div>
-
     <div id="section5"></div>
     <div class="section orange">
       <div class="content-wrap">
         <div class="content-title">
-          <h1>ARIBOT TEAM</h1>
+          <h1>Aribot Team</h1>
         </div>
         <div class="content-content">
             <div class="card">
@@ -270,7 +233,7 @@ input[type=submit]:hover {
           </div>
 
           <div class="card">
-            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <img src="./public/images/hyewon.jpg" alt="John" style="width:100%">
             <h1>이 혜 원</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
@@ -278,7 +241,7 @@ input[type=submit]:hover {
           </div>
 
           <div class="card">
-            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <img src="./public/images/gwee.jpg" alt="John" style="width:100%">
             <h1>김 건 위</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
@@ -286,7 +249,7 @@ input[type=submit]:hover {
           </div>
 
           <div class="card">
-            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <img src="./public/images/hyunjin.jpg" alt="John" style="width:100%">
             <h1>정 현 진</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
@@ -294,7 +257,7 @@ input[type=submit]:hover {
           </div>
 
           <div class="card">
-            <img src="./public/images/dasol.jpg" alt="John" style="width:100%">
+            <img src="./public/images/yondos.jpg" alt="John" style="width:100%">
             <h1>김 연 식</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
@@ -305,16 +268,13 @@ input[type=submit]:hover {
     </div>
 
     <div id="section6"></div>
-      <div class="section <even></even>">
+		<div class="section <even></even>">
       <div class="content-wrap">
         <div class="content-title">
           <h1>Contact Us</h1>
         </div>
         <div class="content-content">
           <div class="contact-container">
-            <div style="text-align:center">
-              <p>Swing by for a cup of coffee, or leave us a message:</p>
-            </div>
             <div class="row">
               <div class="column">
                 <img src="./public/images/map.png" style="width:100%">
@@ -337,9 +297,9 @@ input[type=submit]:hover {
       </div>
     </div>
 
-      <div class="footer">
+		<div class="footer">
       <p style="text-align:center">Copyright</p>
     </div>
-   </div>
+	</div>
 </body>
 </html>

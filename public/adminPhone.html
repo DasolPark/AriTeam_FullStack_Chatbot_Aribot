@@ -2,69 +2,91 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>교내 전화번호 관리자 페이지(AJAX, SPA)</title>
+<title>교내 전화 관리자 페이지(AJAX, SPA)</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
 <style>
-   html,body{height:100%;}
-   body{background:rgb(40,40,50);}
-   .wrapper{
-      width:50%;
-      padding:20px;
-      margin:auto;
-      background:white;
-      border-radius:20px 0px 20px 0px;
-      position:relative;
-      overflow:hidden;
-      top:50px;
-   }
-   .MenuInput{
-      width:15%;
-      height:100%;
-      background:pink;
-      text-align:center;
-      float:left;
-      overflow:hidden;
-   }
-   .middle-area{display:flex; margin-top:20px;}
-   .left{width:70%; float:left;}
-   .right{width:30%; float:left;}
-   .buttonWrap{
-      text-align:center;
-      clear:both;}
-   .right img{width:80%;}
+  body {font-family: Arial, Helvetica, sans-serif;}
+  *{margin:0; padding:0; box-sizing:border-box;}
+  .wrapper{
+    width:100%;
+    height:inherit;
+  }
 
-   #menuList{
-     width:100%;
-     height:100%;
-     float:left;
-     text-align:center;
-   }
+  .header{
+    width:100%;
+    height:30%;
+    padding:70px;
+    border-bottom:1px solid rgb(200,200,200);
+    background:#222;
+    color:white;
+    position:relative;
+  }
+  #logout{
+    position:absolute;
+    right:10px;
+    top:5px;
+    cursor:pointer;
+    display:inline-block;
+    padding:5px 10px;
+    background:white;
+  }
 
-   input[type=text]{
-      width:70%;
-      padding:8px 12px;
+  .section{width:100%; height:70%; overflow:hidden;}
+  .left{width:70%; height:100%; float:left;  padding:30px; }
+  .right{width:30%; height:100%; float:left; padding:30px   ;border-left:1px solid rgb(200,200,200);}
+
+  .input-container {
+      display: -ms-flexbox; /* IE10 */
+      display: flex;
+      width: 100%;
+      margin-bottom: 15px;
+  }
+
+  .icon {
+      padding: 10px;
+      background: #222;
+      color: white;
+      min-width: 50px;
+      text-align: center;
+  }
+
+  .input-field {
+      width: 100%;
+      padding: 10px;
+      outline: none;
+  }
+
+  .input-field:focus {
+      border: 2px solid #222;
+  }
+
+  /* Set a style for the submit button */
+  .btn {
       margin:1px;
-   }
+      background-color: #222;
+      color: white;
+      padding: 15px 20px;
+      border: none;
+      cursor: pointer;
+      width: 100%;
+      opacity: 0.9;
+  }
 
-   button{
-      color:white;
-      border:none;
-      background:#24b71f;
-      margin:20px 1px 0px 1px;
-      padding:10px 20px;
-   }
+  .btn:hover {
+      opacity: 1;
+  }
 
-   div button:hover{
-      background:#15a810;
-      cursor:pointer;
-      font-weight:bold;
-   }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
    $(function(){
-      getList();
-      $("#regist").click(function(){
-         addMenu();
+      getList();//처음에 리스트를 불러오며 number초기화
+      $("#add").click(function(){
+         add();
          textClear();
          getList();
       });
@@ -73,18 +95,18 @@
          textClear();
       });
       $("#del").click(function(){
-         delMenu();
+         del();
          textClear();
          getList();
       });
       $("#delAll").click(function(){
-         delAllMenu();
+         delAll();
          textClear();
          getList();
       });
    });
 
-   function addMenu(){
+   function add(){
       $.post('/phone/add', {
             department : $("#department").val(),
             location : $("#location").val(),
@@ -93,17 +115,16 @@
       });
    }
    function getList(){
-      console.log('Called getList()');
       $.get("/phone/list", function(data, status){
          var array=JSON.parse(data);
-         var str="<table width='100%' border='1px'>";
-         str=str+"<tr>";
-         str=str+"<th>번호</th>";
-         str=str+"<th>부서명</th>";
-         str=str+"<th>위치</th>";
-         str=str+"<th>업무/직책</th>";
-         str=str+"<th>전화번호</th>";
-         str=str+"</tr>";
+         var str="<table class='table table-hover' width='100%'>";
+         str=str+"<thead><tr>";
+         str=str+"<th style='width:10%' scope='col'>번호</th>";
+         str=str+"<th style='width:20%' scope='col'>부서</th>";
+         str=str+"<th style='width:20%' scope='col'>위치</th>";
+         str=str+"<th style='width:30%' scope='col'>업무/직책</th>";
+         str=str+"<th style='width:20%' scope='col'>전화번호</th>";
+         str=str+"</tr></thead><tbody>";
          for(var i=0; i<array.length; i++){
             var obj=array[i];
             str=str+"<td>"+obj.number+"</td>";
@@ -113,73 +134,79 @@
             str=str+"<td>"+obj.phone+"</td>";
             str=str+"</tr>";
          }
-         str=str+"</table>";
+         str=str+"</tbody></table>";
 
          $("#menuList").empty();
          $("#menuList").append(str);
       });
    }
-   function delMenu(){
+   function del(){
       $.post('/phone/del', {
             number:$("#num").val()
          });
    }
-   function delAllMenu(){
+   function delAll(){
       $.post('/phone/delAll');
    }
 
    function textClear(){
+     $("#num").val('');
       $("#department").val('').focus();
         $("#location").val('');
         $("#position").val('');
         $('#phone').val('');
-
    }
 </script>
 </head>
 <body>
-   <div class="wrapper">
-      <div class="menuInput">
-         <h1 style="text-align:center;">안양대학교 교내전화번호</h1>
-         <p style="text-align:center; font-size:12px;">안양대학교 교내전화번호를 업데이트해주세요.</p>
-         <div class="middle-area">
-            <div class="left">
-               <form>
-                  <div>
-                     <label>삭제번호</label>
-                     <input type="text" id="num" name="num" placeholder="삭제를 원하시는 번호를 입력해주세요.">
-                  </div>
-                  <div>
-                     <label>부서이름</label>
-                     <input type="text" id="department" name="department" placeholder="부서명(ex:커리어개발센터)">
-                  </div>
-                  <div>
-                     <label>부서위치</label>
-                     <input type="text" id="location" name="location" placeholder="위치(ex:비508)">
-                  </div>
-                  <div>
-                     <label>업무직책</label>
-                     <input type="text" id="position" name="position" placeholder="업무/직책(ex:사회봉사,민원상담)">
-                  </div>
-                  <div>
-                     <label>전화번호</label>
-                     <input type="text" id="phone" name="phone" placeholder="전화번호(ex:031-469-6268)">
-                  </div>
-               </form>
-            </div>
-            <div class="right">
-               <img src="./food.png" alt="food..">
-            </div>
-         </div>
+  <div class="wrapper">
+    <div class="header">
+      <div>
+        <h1 style="font-weight:bold; ">교내전화번호 관리 페이지</h1>
+        <p>전화번호를 업데이트해주세요!</p>
+        <a href="/auth/logout" id="logout">Logout</a>
       </div>
-      <div class="buttonWrap">
-         <button id='regist'>등록</button>
-         <button id='list'>리스트</button>
-         <button id='del'>삭제</button>
-         <button id='delAll'>전체 삭제</button>
-         <span style="margin-left:10px;"></span>
+    </div>
+    <div class="section">
+      <div class="left">
+        <h2 style="margin-bottom:20px;">데이터 조회</h2>
+        <div id="menuList"></div>
       </div>
-      <div id="menuList"></div>
-   </div>
+      <div class="right">
+        <form style="max-width:500px;margin:auto">
+          <h2 style="margin-bottom:20px;">데이터 추가 및 삭제</h2>
+          <div class="input-container">
+            <i class="fa fa-user icon"></i>
+            <input class="input-field" type="text" placeholder="삭제번호" id="num" name="num">
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-envelope icon"></i>
+            <input class="input-field" type="text" placeholder="부서명" id="department" name="department">
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="text" placeholder="위치" id="location" name="location">
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="text" placeholder="업무/직책" id="position" name="position">
+          </div>
+
+          <div class="input-container">
+            <i class="fa fa-key icon"></i>
+            <input class="input-field" type="text" placeholder="전화번호" id="phone" name="phone">
+          </div>
+
+        </form>
+        <button class="btn" id="add">추가</button>
+        <button class="btn" id='list'>데이터 조회</button>
+        <button class="btn" id='del'>삭제</button>
+        <button class="btn" id='delAll'>전체 삭제</button>
+    </div>
+
+  </div>
 </body>
 </html>
