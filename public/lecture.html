@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>개설 강좌 조회</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.5.0/css/foundation-float.css">
+<style>
+*{
+	margin:0;
+	padding:0;
+}
+.wrapper{
+	width:100%;
+	position:relative; /*현재 html에 부여된 본연의 위치속성*/
+	display:flex;
+	flex-direction:column;
+	align-items: center;
+	text-align:center;
+}
+.search_area{
+	text-align:center;
+}
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+	$(function(){
+		$("#listBtn").click(function(){
+			list();
+		});
+	});
+
+	//리스트 가져오기
+	function list(){
+		$.get("/lecutre/list", function(data, status){
+			var array=JSON.parse(data); //인수로 전달된 문자열을 다시 객체로 복원
+
+			var str="<table width='100%' border='1px' class='table'>";
+			str=str+"<tr>";
+			str=str+"<th>순서</th>";//num
+			str=str+"<th>과목코드</th>";//lecCode
+			str=str+"<th>과목명</th>";//lecName
+			str=str+"<th>분반</th>";//class
+			str=str+"<th>이수구분</th>";//pf
+			str=str+"<th>온라인강의비율</th>";//online
+			// str=str+"<th>사번</th>";//proNum
+			str=str+"<th>교수명</th>";//proName
+			// str=str+"<th>직급</th>";//proPosition
+			str=str+"<th>소속</th>";//proTeam
+			str=str+"<th>학점</th>";//grade
+			str=str+"<th>이론</th>";//theory
+			str=str+"<th>실습</th>";//practice
+			str=str+"<th>상대평가유형</th>";//relative
+			// str=str+"<th>강의평가여부</th>";//eval
+			// str=str+"<th>수업계획서출력</th>";//lecPlan
+			// str=str+"<th>집중강의여부</th>";//concen
+			str=str+"<th>시간표</th>";//timeTable
+			// str=str+"<th>수강신청초과여부</th>";//overApply
+			// str=str+"<th>출석적용여부</th>";//abs
+			str=str+"</tr>";
+			for(var i=0; i<array.length; i++){
+				var obj=array[i];//배열을 {member2_id: 5, id: 'dassol90', pw: '1234', name: '박다솔짱2'}(JSON)으로 받을래
+				str=str+"<tr>";
+				str=str+"<td>"+obj.number+"</td>";
+				str=str+"<td>"+obj.lecCode+"</td>";
+				str=str+"<td>"+obj.lecName+"</td>";
+				str=str+"<td>"+obj.class+"</td>";
+				str=str+"<td>"+obj.pf+"</td>";
+				str=str+"<td>"+obj.online+"</td>";
+				// str=str+"<td>"+obj.proNum+"</td>";
+				str=str+"<td>"+obj.proName+"</td>";
+				// str=str+"<td>"+obj.proPosition+"</td>";
+				str=str+"<td>"+obj.proTeam+"</td>";
+				str=str+"<td>"+obj.grade+"</td>";
+				str=str+"<td>"+obj.theory+"</td>";
+				str=str+"<td>"+obj.practice+"</td>";
+				str=str+"<td>"+obj.relative+"</td>";
+				// str=str+"<td>"+obj.eval+"</td>";
+				// str=str+"<td>"+obj.lecPlan+"</td>";
+				// str=str+"<td>"+obj.concen+"</td>";
+				str=str+"<td>"+obj.timeTable+"</td>";
+				// str=str+"<td>"+obj.overApply+"</td>";
+				// str=str+"<td>"+obj.abs+"</td>";
+				str=str+"</tr>";
+			}
+			str=str+"</table>";
+
+			$("#list_area").empty();//하위 자식 요소를 싹~~ 지운다!
+			$("#list_area").append(str);
+		});
+	}
+</script>
+</head>
+<body>
+	<div class="wrapper">
+		<div class="search_area">
+			<div>
+				<button id="listBtn">조회</button>
+			</div>
+		</div>
+		<div id="list_area"></div>
+	</div>
+</body>
+</html>
