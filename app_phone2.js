@@ -10,6 +10,7 @@ var fs = require('fs');//메뉴를 JSON파일로 바꿔주기 위한 모듈 불�
 var jsonfile = require('jsonfile');
 app.use(cors());
 app.use('/public', static(path.join(__dirname, 'public')));
+app.use('/uploads', static(path.join(__dirname, 'uploads')));
 
 var CafeteriaModel;
 
