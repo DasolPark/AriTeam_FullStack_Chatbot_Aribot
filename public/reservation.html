@@ -26,6 +26,9 @@
    #select,#rClass,#rNum, .ajaxsend{width:100%; padding:10px; text-align:center;  font-size:16px; color:rgb(30,30,30);}
    .ajaxsend{background:rgb(20,120,180); border:none; color:white; font-weight:600; cursor:pointer;}
    .ajaxsend:hover{background:rgb(20,100,160);}
+   .result{width:100%;}
+   .display-6{font-size:30px; font-weight:600;}
+   .display-3{font-size:15px; color:red;}
   </style>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="./public/OptionTag.js"></script>
@@ -40,6 +43,10 @@
   $(function(){
     getYYMMDD();
   });
+  function sleep (delay) {
+   var start = new Date().getTime();
+   while (new Date().getTime() < start + delay);
+  }
   function getYYMMDD(){
     today = new Date();
     dd = today.getDate();//2018
@@ -90,7 +97,7 @@
 <body>
   <div class="container">
     <header>
-      <h1 class="display-3 font-sm">빈 강의실 조회 및 예약</h1>
+      <h1 class="display-6 font-lg" style="margin-top:30px">빈 강의실 조회 및 예약</h1>
       <h1 class="display-3 font-sm">당일부터 2주까지만 예약이 가능합니다.</h1>
     </header>
     <section class="userInput">
@@ -130,7 +137,7 @@
     <button type="button" class="ajaxsend btn btn-primary btn-lg btn-block" >Search!</button>
     </section>
 
-    <div class="result"></div>
+    <div class="result" style = "text-align:center"></div>
   </div>
 
   <script>
@@ -138,7 +145,8 @@
     var rDate, rClass, rNum, resultArray, rDay;
     var array = [];
     var answer="";
-    var rStr,stId;
+    var rStr = [];
+    var stId;
     var num = [];
     var arrayt = ["9:00~9:50","10:00~10:50","11:00~11:50","12:00~12:50","13:00~13:50","14:00~14:50","15:00~15:50","16:00~16:50","17:00~17:50","17:55~18:45","18:50~19:40","19:45~20:35","20:40~21:30","21:35~22:25"];
 
@@ -153,8 +161,8 @@
         // answer = "<table width = '100%' style = 'text-align:center'  class='table table-sm'><thead><tr><th scope='col'>건물</th><th scope='col'>강의실</th><th scope='col'>교시</th><th scope='col'>시간</th><th scope='col'>예약</th></tr></thead><tbody>";
         // var resultDiv = document.querySelector('.result');
         // resultDiv.innerHTML = "";
-        sendAjax('http://localhost:3003/reservation/list', rDate, rClass, rNum, rDay);
-        // sendAjax('http://http://13.125.164.95//reservation/list', rDate, rClass, rNum, rDay);
+        //sendAjax('http://localhost:3003/reservation/list', rDate, rClass, rNum, rDay);
+        sendAjax('http://13.125.164.95/reservation/list', rDate, rClass, rNum, rDay);
 
       });
       function resAjax(url,rDate,rClass,rNum,array,result){
@@ -170,11 +178,16 @@
           var result2 = JSON.parse(xhr.responseText);
           // if(result.result !== 'ok') resultDiv.innerHTML = "your email is Not Found";
           // else resultDiv.innerHTML = result.name;
-            console.log(result2);
             reservation(array,!result2);
+	answer = "<table width = '100%' style = 'text-align:center'  class='table table-sm'><thead><tr><th scope='col'>건물</th><th scope='col'>강의실</th><th scope='col'>교시</th><th scope='col'>시간</th><th scope='col'>예약</th></tr></thead><tbody>";
+            for(var i = 0; i<num.length; i++){
+              for(var j = 0; j<rStr.length; j++){
+                if(num[i] == rStr[j].id){
+                  answer += rStr[j].value;
+                }
+              }
+            }
 
-
-            console.log(answer);
            resultDiv.innerHTML = answer;
       });
     }
@@ -192,27 +205,27 @@
           // if(result.result !== 'ok') resultDiv.innerHTML = "your email is Not Found";
           // else resultDiv.innerHTML = result.name;
           // console.log(result);
-          result = replaceResult(result);
+          if(result =="강의실이 없습니다."){
+            answer = "강의실이 없습니다.";
+            resultDiv.innerHTML = answer;
+          }else{
+	  result = replaceResult(result);
           // console.log(result);
           // console.log(array);
           num = [];
+ 	  rStr = [];
           answer = "<table width = '100%' style = 'text-align:center'  class='table table-sm'><thead><tr><th scope='col'>건물</th><th scope='col'>강의실</th><th scope='col'>교시</th><th scope='col'>시간</th><th scope='col'>예약</th></tr></thead><tbody>";
           for(var i = 0; i < array.length; i++){
             if(array[i] != 0){
               num.push(array[i]);
             }
           }
-          for(var i = 0; i < num.length; i++){
-            // answer += reservation(num[i]);
-            setTimeout(function() {}, 100);
-
-            resAjax('http://localhost:3003/resAjax',rDate,rClass,rNum,num[i], answer);
-            // resAjax('http://http://13.125.164.95/resAjax',rDate,rClass,rNum,num[i], answer);
-
-          if(i == num.length-1){
-
-          }
-        }
+	    // answer += reservation(num[i]);
+            //resAjax('http://localhost:3003/resAjax',rDate,rClass,rNum,num[i], answer);
+            for(var i = 0; i<num.length; i++){
+	      resAjax('http://13.125.164.95/resAjax',rDate,rClass,rNum,num[i], answer);
+	    }
+	  }
           //resultDiv.innerHTML = answer;
         });
       }
@@ -220,18 +233,22 @@
 
         var result = "";
         // answer = "";
-
             //console.log(resAjax('http://localhost:3003/resAjax',rDate,rClass,rNum,array[i]));
-            answer += "<tr><td>"+rClass +"</td><td>"+ rNum +"</td><td>"+  num +"</td><td>"+ arrayt[num-1] +"</td>";
+            result += "<tr><td>"+rClass +"</td><td>"+ rNum +"</td><td>"+  num +"</td><td>"+ arrayt[num-1] +"</td>";
 
             if(result2){
-              answer += "<td><button type=\"button\" name=\"button\" onClick = rClickpos("+num+")>예약 가능";
+              result += "<td><button class='btn' style='background-color:skyblue' type=\"button\" name=\"button\" onClick = rClickpos("+num+")>예약 가능";
             }else{
-              answer += "<td><button type=\"button\" name=\"button\" onClick = rClickimpos("+num+")>예약 취소";
+              result += "<td><button class='btn' type=\"button\" name=\"button\" onClick = rClickimpos("+num+")>예약 취소";
             }
-            answer +="</button></td>"+"</tr>";
+            result +="</button></td>"+"</tr>";
             // result += answer;
-
+	    rStr.push(
+		{
+		  id : num,
+		  value : result
+		}
+	    );	
         // return result;
       }
       function replaceAll(str, searchStr, replaceStr){
@@ -266,6 +283,7 @@
       function rClickpos(rtime){ //예약 가능 클릭함수
         var str = rDate + rClass + rNum + rtime;
         stId = prompt("학번을 입력해주세요")
+	if(stId != null){
         $.post('/reservation/sub', {
           key:str,
           stId:stId
@@ -279,10 +297,12 @@
             var resultDiv = document.querySelector('.result');
            resultDiv.innerHTML = "";
           });
+        }
       }
       function rClickimpos(rtime){ //예약 취소 클릭함수
         var str = rDate + rClass + rNum + rtime;
         stId = prompt("학번을 입력해주세요")
+	if(stId != null){
         $.post('/reservation/delete', {
           key:str,
           stId:stId
@@ -296,6 +316,7 @@
             var resultDiv = document.querySelector('.result');
            resultDiv.innerHTML = "";
           });
+        }
       }
       function getInputDayLabel(rDate) {
           var week = new Array('SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT');

@@ -85,21 +85,21 @@
 <script>
    $(function(){
       getList();//처음에 리스트를 불러오며 number초기화
-      $("#add").click(function(){
+      $("#add").mouseup(function(){
          add();
          textClear();
          getList();
       });
-      $("#list").click(function(){
+      $("#list").mouseup(function(){
          getList();
          textClear();
       });
-      $("#del").click(function(){
+      $("#del").mouseup(function(){
          del();
          textClear();
          getList();
       });
-      $("#delAll").click(function(){
+      $("#delAll").mouseup(function(){
          delAll();
          textClear();
          getList();
