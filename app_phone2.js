@@ -1,4 +1,3 @@
-//AWS로 올리기 위해 수정된 app.js
 var app = require('./config/mysql/express')();//함수니까 ()도 쓰는게 정석
 var passport = require('./config/mysql/passport')(app);
 var static = require('serve-static');
@@ -11,6 +10,7 @@ var fs = require('fs');//메뉴를 JSON파일로 바꿔주기 위한 모듈 불�
 var jsonfile = require('jsonfile');
 app.use(cors());
 app.use('/public', static(path.join(__dirname, 'public')));
+app.use('/uploads', static(path.join(__dirname, 'uploads')));
 
 var CafeteriaModel;
 
@@ -23,14 +23,14 @@ app.get('/', function(req, res){
 
 app.get('/welcome', function(req, res){
 	if(req.user.username == "food"){
-		res.sendFile(path.join(__dirname + '/public/adminFood2.html'));
+		res.sendFile(path.join(__dirname + '/public/adminFood.html'));
 	}else if(req.user.username == "phone"){
-		res.sendFile(path.join(__dirname + '/public/adminPhone2.html'));
+		res.sendFile(path.join(__dirname + '/public/adminPhone.html'));
 	}
 });
 
 app.get('/food/admin', function(req, res){
-	res.sendFile(path.join(__dirname + '/public/adminFood2.html'));
+	res.sendFile(path.join(__dirname + '/public/adminFood.html'));
 });
 //메뉴 추가 라우터
 app.post("/food/add", function(req, res){
@@ -113,7 +113,7 @@ app.post("/food/delAll", function(req, res){
 
 // 교내전화번호
 app.get('/phone/admin', function(req, res){
-	res.sendFile(path.join(__dirname + '/public/adminPhone2.html'));
+	res.sendFile(path.join(__dirname + '/public/adminPhone.html'));
 });
 
 //메뉴 추가 라우터
@@ -237,8 +237,8 @@ function createCafeteriaSchema() {
   });
   console.log('CafeteriaSchema 정의되었음');
 
-  CafeteriaModel = mongoose.model('Cafeteria', CafeteriaSchema);
 	CafeteriaSchema.plugin(autoIncrement.plugin, {model: 'Cafeteria', field: 'number'});//add autoInc
+  CafeteriaModel = mongoose.model('Cafeteria', CafeteriaSchema);
 
   console.log('CafeteriaModel 정의되었음');
 }
@@ -253,8 +253,8 @@ function createPhoneSchema(){
 	});
 	console.log('PhoneSchema 정의되었음');
 
-	PhoneModel = mongoose.model('Phone', PhoneSchema);
 	PhoneSchema.plugin(autoIncrement.plugin, {model: 'Phone', field: 'number'});//add autoInc
+	PhoneModel = mongoose.model('Phone', PhoneSchema);
 
 	console.log('PhoneModel 정의되었음');
 }
