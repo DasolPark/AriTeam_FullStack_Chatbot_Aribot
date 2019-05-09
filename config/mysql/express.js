@@ -15,10 +15,10 @@ module.exports = function(){
     resave: false,//세션id를 새로 접속할 때마다 재발급하지 않는다
     saveUninitialized: true,//세션을 id를 세션을 실제로 사용하기 전까지는 발급하지 말아라
     store: new MySQLStore({
-    	host: 'localhost',
+    	host: '0.0.0.0',
       port: 3306,
       user: 'root',
-      password: '111111',
+      password: 'ari610',
       database: 'o2'
     })
   }));

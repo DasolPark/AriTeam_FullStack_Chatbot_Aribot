@@ -62,14 +62,22 @@ a{text-decoration:none; color:rgb(50,50,50);}
 .content-wrap {width:80%;margin:0 auto; text-align:center;}
 .content-title{width:100%; padding:50px; font-size:20px;}
 .content-content{width:100%; padding:0 50px 50px 50px; font-size:20px;  overflow:hidden;}
-.content-content img{width:150px;margin:10px;}
+.margin10 img{width:150px; margin:10px;}
 #chatex { width:100%;}
+.problem-wrap{
+	display:flex;
+	justify-content:center;
+	align-items:center;
+	font-weight:600;
+}
 
 /*profile card*/
-.card {width:18%;box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);margin: 10px;text-align: center;font-family: arial;float:left;background:white;}
-.title, .univ{margin:20px 0px;}
-.card img{margin:0px;}
-.title {color: grey;font-size: 18px;}
+.card-wrap{display: flex; justify-content: center; align-items: center; width:100%;}
+.card {width:20%; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);margin: 10px;text-align: center;font-family: arial;float:left;background:white;}
+.card h1{font-size:25px;}
+.title, .univ{margin:20px 0px; font-size:14px;}
+.card img{width:100%; height:300px;}
+.title {color: grey;}
 .profile-btn {
   border: none;
   outline: 0;
@@ -80,7 +88,7 @@ a{text-decoration:none; color:rgb(50,50,50);}
   text-align: center;
   cursor: pointer;
   width: 100%;
-  font-size: 18px;
+  font-size: 16px;
 }
 .profile-btn:hover{opacity: 0.7;}
 
@@ -132,7 +140,8 @@ input[type=submit]:hover {
 }
 
 /*footer*/
-.footer{border-top:1px solid rgb(230,230,230);padding:50px;}
+.footer{border-top:1px solid rgb(230,230,230);padding:50px; display:flex; justify-content:center; align-items:center;}
+.footer a{padding:50px; font-weight:1000;font-size:50px;}
 
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -179,8 +188,8 @@ input[type=submit]:hover {
           <h1>학사행정지원 인공지능 챗봇 서비스 '아리봇'</h1>
         </div>
         <div class="content-content" style="text-align:left; line-height:35px;">
-          <p>&nbsp;&nbsp;  '아리봇'은 안양대학교 학사행정지원 챗봇입니다. '아리봇'은 정보통신공학과 학생들이 모여 'ICT를 이용해 조금 더 편한 대학생활을 할 수는 없을까?' 라는 생각을 통해 태어났습니다. 학생들이 가장 불편함을 호소했던 것들은 다음과 같습니다. 1. 학교 식당 메뉴를 알고 싶은데, 모바일을 통해 안양대학교 홈페이지를 들어가려니 정말 불편했다. 2. 다음 수업시간까지 시간이 많이 남는데, 잠시 이용할 수 있는 빈 강의실을 알 수는 없을까? 3. 각 부서의 전화번호를 알고 싶은데, 찾아내기까지 과정이 정말 불편하다.<br/>
-&nbsp;&nbsp;이러한 불편함과 궁금증을 해소해드리기 위해서, 우리 '아리봇'은 평소 여러분이 자주 이용하는 카카오톡 채팅을 이용해 학사 정보를 제공합니다. 24시간 신속하고, 정확한 정보를 제공하면서 대학생활의 편리함을 가져다줄 학사행정지원 챗봇 '아리봇'은 언제나 당신의 대학생활을 응원합니다.<br/>
+          <p>&nbsp;&nbsp;  <strong>'아리봇'</strong>은 안양대학교 학사행정지원 챗봇입니다. <strong>'아리봇'</strong>은 정보통신공학과 학생들이 모여 <strong>'ICT를 이용해 조금 더 편한 대학생활을 할 수는 없을까?'</strong> 라는 생각을 통해 태어났습니다. 학생들이 가장 <strong>불편함</strong>을 호소했던 것들은 다음과 같습니다.<div class="problem-wrap"><div style="text-align:left"><br/>1. 학교 식당 메뉴를 알고 싶은데, 모바일을 통해 안양대학교 홈페이지를 들어가려니 정말 불편했다.<br>2. 다음 수업시간까지 시간이 많이 남는데, 잠시 이용할 수 있는 빈 강의실을 알 수는 없을까?<br>3. 각 부서의 전화번호를 알고 싶은데, 찾아내기까지 과정이 정말 불편하다.<br/><br/></div></div>
+&nbsp;&nbsp;이러한 불편함과 궁금증을 해소해드리기 위해서, 우리 <strong>'아리봇'</strong>은 평소 여러분이 자주 이용하는 카카오톡 채팅을 이용해 학사 정보를 제공합니다. <strong>24시간 신속하고, 정확한 정보</strong>를 제공하면서 대학생활의 편리함을 가져다줄 학사행정지원 챗봇 <strong>'아리봇'</strong>은 언제나 당신의 대학생활을 응원합니다.<br/>
 </p>
         </div>
       </div>
@@ -204,7 +213,7 @@ input[type=submit]:hover {
         <div class="content-title">
           <h1>'아리봇'에 사용된 기술</h1>
         </div>
-        <div class="content-content">
+        <div class="content-content margin10">
           <img src="public/images/js.png" alt="javascript">
           <img src="public/images/node.png" alt="nodejs">
           <img src="public/images/danbee.jpg" height="140" alt="danbee.ai">
@@ -222,12 +231,13 @@ input[type=submit]:hover {
           <h1>Aribot Team</h1>
         </div>
         <div class="content-content">
+	  <div class="card-wrap">
             <div class="card">
             <img src="./public/images/pds.jpg" alt="John" style="width:100%">
             <h1>박 다 솔</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
-            <p><button class="profile-btn">프로젝트 책임자</button></p>
+            <p><button class="profile-btn">Project Manager</button></p>
           </div>
 
           <div class="card">
@@ -235,7 +245,7 @@ input[type=submit]:hover {
             <h1>이 혜 원</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
-            <p><button class="profile-btn">팀원</button></p>
+            <p><button class="profile-btn">Developer</button></p>
           </div>
 
           <div class="card">
@@ -243,7 +253,7 @@ input[type=submit]:hover {
             <h1>김 건 위</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
-            <p><button class="profile-btn">팀원</button></p>
+            <p><button class="profile-btn">Developer</button></p>
           </div>
 
           <div class="card">
@@ -251,7 +261,7 @@ input[type=submit]:hover {
             <h1>정 현 진</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
-            <p><button class="profile-btn">팀원</button></p>
+            <p><button class="profile-btn">Developer</button></p>
           </div>
 
           <div class="card">
@@ -259,8 +269,9 @@ input[type=submit]:hover {
             <h1>김 연 식</h1>
             <p class="univ">Anyang University</p>
             <p class="title">정보통신공학과</p>
-            <p><button class="profile-btn">팀원</button></p>
+            <p><button class="profile-btn">Developer</button></p>
           </div>
+	</div>
         </div>
       </div>
     </div>
@@ -295,8 +306,9 @@ input[type=submit]:hover {
       </div>
     </div>
 
-		<div class="footer">
-      <p style="text-align:center">Copyright</p>
+		<div class="footer"><div style="text-align:left; display:flex; justify-content:center; align-items:center;">
+          <a href="/">Aribot</a>
+      	  <p style="text-align:left">우)14028 경기도 안양시 만안구 삼덕로37번길 22 (안양동, 안양대학교) 수리관 610호 <br>TEL: 031-463-1336 | dpsc615@ayum.anyang.ac.kr<br>Copyright 2018. Ari-Team Copyright Association. All rights reserved </p><div>
     </div>
 	</div>
 </body>

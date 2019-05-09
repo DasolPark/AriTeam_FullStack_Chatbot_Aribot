@@ -192,7 +192,6 @@ app.post("/reservation/delete", function(req, res){
 		}
 	});
 });
-//빈 강의실 조회 요청
 app.post("/reservation/list", function(req, res){
 	console.log(rDate+' '+rClass+' '+rNum+' '+rDay);
   var rDate=req.body.rDate;//날짜(일자, 요일 분리 필요)
@@ -206,10 +205,20 @@ app.post("/reservation/list", function(req, res){
     if(error){
       console.log(error);
     }else{
-      var sql="select number, substring_index(substring_index(timeTable, '"+rDay+"(', -1), ')', 1) as timeTable from (select number, timeTable from (select number,timeTable from (select number, timeTable from lecture2 where timeTable like '%"+rClass+"%') as leca where leca.timeTable like '%"+rNum+"%') as lecb where lecb.timeTable like '%"+rDay+"%') as lecc";
-      con.query(sql, function(err, result){
-        if(err){
-          console.log(err);
+      //아래 데이터베이스에 맞춰서 변경해주기
+      var sql="select number,timeTable from (select number, timeTable from lecture2 where timeTable like '%"+rClass+"%') as leca where leca.timeTable like '%"+rNum+"%'";
+			var as;
+			con.query(sql, function(err, result){
+				var reBool = true;
+				if(result == ""){
+					reBool = false;
+				}
+				console.log(!reBool);
+        //console.log(sql);
+        if(!reBool){
+				console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+          console.log("강의실이 없습니다.");
+					res.end(JSON.stringify("강의실이 없습니다."));
         }else{
           // 예약된 상황이 JSON파일로 필요하다면 아래 주석 풀어서 맞게 적용
 					// const file = './uploads/LecList.json'
@@ -217,20 +226,47 @@ app.post("/reservation/list", function(req, res){
 					// jsonfile.writeFile(file, {list}, function(err){
 					// 	if(err) console.log(err);
 					// });
-					console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-          console.log(result);
-					if(err){
-						console.log(err);
-					} else {
-          	res.end(JSON.stringify(result));
+					pool.getConnection(function(error, con){
+				    if(error){
+				      console.log(error);
+				    }else{
+							var sql="select number, substring_index(substring_index(timeTable, '"+rDay+"(', -1), ')', 1) as timeTable from (select number, timeTable from (select number,timeTable from (select number, timeTable from lecture2 where timeTable like '%"+rClass+"%') as leca where leca.timeTable like '%"+rNum+"%') as lecb where lecb.timeTable like '%"+rDay+"%') as lecc";
+
+							console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+							console.log(as);
+							con.query(sql, function(err, result){
+
+								console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+								console.log(result);
+				        //console.log(sql);
+				        if(err){
+				          console.log(err);
+				        }else{
+				          // 예약된 상황이 JSON파일로 필요하다면 아래 주석 풀어서 맞게 적용
+									// const file = './uploads/LecList.json'
+									// const list = result;
+									// jsonfile.writeFile(file, {list}, function(err){
+									// 	if(err) console.log(err);
+									// });
+									console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
+				          console.log(result);
+
+									res.end(JSON.stringify(result));
+				        	}
+
+				        con.release();
+							});
+						}
+						});
+
         	}
-				}
+
         con.release();
 			});
+
 		}
 	});
 });
-
 app.get('/lecture', function(req, res){
   res.sendFile(__dirname + '/public/lecture.html');
 });
@@ -495,7 +531,7 @@ function createPhoneSchema(){
 	console.log('PhoneModel 정의되었음');
 }
 
-app.listen(3003, function(){
+app.listen(80, function(){
 	console.log('Connected 3003 port!!!');
 	connectDB();
 });

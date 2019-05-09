@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>개설 강좌 조회</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.5.0/css/foundation-float.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
 <style>
 *{
 	margin:0;
@@ -12,13 +13,13 @@
 .wrapper{
 	width:100%;
 	position:relative; /*현재 html에 부여된 본연의 위치속성*/
-	display:flex;
-	flex-direction:column;
-	align-items: center;
-	text-align:center;
 }
 .search_area{
 	text-align:center;
+}
+#listBtn{
+	margin:10px auto;
+	width:50%;
 }
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -94,7 +95,7 @@
 	<div class="wrapper">
 		<div class="search_area">
 			<div>
-				<button id="listBtn">조회</button>
+				<button class="btn btn-primary btn-lg btn-block" id="listBtn">개설 강좌 조회</button>
 			</div>
 		</div>
 		<div id="list_area"></div>
