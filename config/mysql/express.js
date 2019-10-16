@@ -19,6 +19,7 @@ module.exports = function(){
       port: 3306,
       user: 'root',
       password: 'ari610',
+
       database: 'o2'
     })
   }));
