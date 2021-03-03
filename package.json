@@ -25,7 +25,7 @@
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
     "pbkdf2-password": "^1.2.1",
-    "pug": "2.0.0-beta11",
+    "pug": "3.0.1",
     "serve-static": "^1.13.2",
     "supervisor": "^0.12.0"
   },
